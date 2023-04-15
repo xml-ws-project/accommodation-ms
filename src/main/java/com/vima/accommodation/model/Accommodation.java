@@ -1,24 +1,23 @@
 package com.vima.accommodation.model;
 
 import com.vima.accommodation.model.enums.PaymentType;
-import com.vima.accommodation.model.enums.Period;
 
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapKeyColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -44,23 +43,17 @@ public class Accommodation {
 	@Column(nullable = false)
 	String name;
 
+	@Column
+	String hostId;
+
 	@OneToOne
 	Address address;
 
-	@Column
-	boolean hasWifi;
-
-	@Column
-	boolean hasAirConditioning;
-
-	@Column
-	boolean hasFreeParking;
-
-	@Column
-	boolean hasBalcony;
-
-	@Column
-	boolean hasKitchen;
+	@ManyToMany
+	@JoinTable(name = "accommodation_benefits",
+	joinColumns = @JoinColumn(name = "accommodation_id"),
+	inverseJoinColumns = @JoinColumn(name = "benefit_id"))
+	List<AdditionalBenefit> benefits;
 
 	@Column
 	HashSet<String> images;
@@ -71,14 +64,15 @@ public class Accommodation {
 	@Column
 	int maxGuests;
 
-	@ElementCollection
-	@CollectionTable(name = "pricelist",
-		joinColumns = {@JoinColumn(name = "accommodation_id", referencedColumnName = "id")})
-	@Enumerated(EnumType.STRING)
-	@MapKeyColumn(name = "period")
-	@Column(name = "price")
-	Map<Period, Double> pricelist;
+	@Embedded
+	DateRange availableInPeriod;
+
+	@OneToOne
+	PriceInfo priceInfo;
 
 	@Enumerated(EnumType.STRING)
 	PaymentType paymentType;
+
+	@Column
+	boolean automaticAcceptance;
 }

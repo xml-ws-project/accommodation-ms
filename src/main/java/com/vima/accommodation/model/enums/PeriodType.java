@@ -1,8 +1,7 @@
 package com.vima.accommodation.model.enums;
 
-public enum Period {
-	REGULAR,
+public enum PeriodType {
 	SEASON,
-	WEEKEND,
+	//WEEKEND,
 	HOLIDAYS
 }
