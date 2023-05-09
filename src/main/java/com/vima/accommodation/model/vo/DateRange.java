@@ -13,7 +13,6 @@ import lombok.experimental.FieldDefaults;
 
 @Embeddable
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
@@ -21,6 +20,12 @@ public class DateRange {
 
 	LocalDate start;
 	LocalDate end;
+
+	public DateRange(LocalDate start, LocalDate end) {
+		if (start.isAfter(end)) throw new IllegalStateException();
+		this.start = start;
+		this.end = end;
+	}
 
 	public boolean isPartlyOverlap(DateRange dateRange) {
 		return isIncludingDate(dateRange.start) || isIncludingDate(dateRange.end);

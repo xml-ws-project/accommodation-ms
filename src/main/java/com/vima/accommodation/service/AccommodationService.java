@@ -1,5 +1,6 @@
 package com.vima.accommodation.service;
 
+import com.vima.accommodation.dto.AdditionalBenefitRequest;
 import com.vima.accommodation.dto.SpecialInfoRequest;
 import com.vima.accommodation.dto.accommodation.AccommodationRequest;
 import com.vima.accommodation.dto.accommodation.UpdateAccommodationRequest;
@@ -16,6 +17,6 @@ public interface AccommodationService {
 	Accommodation findById(UUID id);
 	List<Accommodation> findAllByHostId(String hostId);
 	List<Accommodation> findAll();
-	AdditionalBenefit addBenefit(AdditionalBenefit benefit);
+	AdditionalBenefit addBenefit(AdditionalBenefitRequest benefit);
 	SpecialInfo createSpecialPeriod(SpecialInfoRequest request);
 }

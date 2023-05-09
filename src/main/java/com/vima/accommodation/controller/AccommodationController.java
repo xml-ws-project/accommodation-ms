@@ -1,6 +1,7 @@
 package com.vima.accommodation.controller;
 
 import com.vima.accommodation.api.AccommodationApi;
+import com.vima.accommodation.dto.AdditionalBenefitRequest;
 import com.vima.accommodation.dto.AdditionalBenefitResponse;
 import com.vima.accommodation.dto.SpecialInfoRequest;
 import com.vima.accommodation.dto.SpecialInfoResponse;
@@ -71,7 +72,7 @@ public class AccommodationController implements AccommodationApi {
 
 	@Override
 	@PostMapping("/benefit")
-	public ResponseEntity<AdditionalBenefit> addBenefit(@RequestBody final AdditionalBenefit benefit) {
+	public ResponseEntity<AdditionalBenefit> addBenefit(@RequestBody @Valid final AdditionalBenefitRequest benefit) {
 		return ResponseEntity.ok(accommodationService.addBenefit(benefit));
 	}
 

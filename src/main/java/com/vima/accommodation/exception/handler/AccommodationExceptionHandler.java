@@ -2,6 +2,7 @@ package com.vima.accommodation.exception.handler;
 
 import com.vima.accommodation.exception.BaseException;
 import com.vima.accommodation.exception.NotFoundException;
+import com.vima.accommodation.exception.SpecialInfoException;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class AccommodationExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(value = { NotFoundException.class })
+	@ExceptionHandler(value = { NotFoundException.class, SpecialInfoException.class })
 	protected ResponseEntity<Object> handleException(BaseException ex, WebRequest request) {
 		String bodyOfResponse = ex.getMessage();
 		return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), ex.getStatus(), request);

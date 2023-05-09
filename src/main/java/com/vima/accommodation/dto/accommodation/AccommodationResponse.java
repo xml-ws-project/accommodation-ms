@@ -29,7 +29,7 @@ public class AccommodationResponse {
 	String number;
 	String postalCode;
 	List<AdditionalBenefitResponse> benefits;
-	HashSet<String> images;
+	List<String> images;
 	int minGuests;
 	int maxGuests;
 	double regularPrice;

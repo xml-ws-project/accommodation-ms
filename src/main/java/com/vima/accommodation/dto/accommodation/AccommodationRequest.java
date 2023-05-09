@@ -37,7 +37,7 @@ public class AccommodationRequest {
 	String number;
 	@NotBlank
 	String postalCode;
-	HashSet<String> images;
+	List<String> images;
 	@NotNull
 	int minGuests;
 	@NotNull
@@ -50,6 +50,6 @@ public class AccommodationRequest {
 	double regularPrice;
 	@NotNull
 	List<String> benefitsIds;
-	@NotEmpty
+	@NotNull
 	DateRange availablePeriod;
 }

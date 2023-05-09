@@ -9,7 +9,9 @@ import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -59,8 +61,10 @@ public class Accommodation {
 	inverseJoinColumns = @JoinColumn(name = "benefit_id"))
 	List<AdditionalBenefit> benefits;
 
-	@Column
-	HashSet<String> images;
+	@ElementCollection
+	@CollectionTable(name = "images", joinColumns = @JoinColumn(name = "accommodation_id"))
+	@Column(name = "image")
+	List<String> images;
 
 	@Column
 	int minGuests;

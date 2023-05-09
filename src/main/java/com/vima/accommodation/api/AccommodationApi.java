@@ -1,5 +1,6 @@
 package com.vima.accommodation.api;
 
+import com.vima.accommodation.dto.AdditionalBenefitRequest;
 import com.vima.accommodation.dto.AdditionalBenefitResponse;
 import com.vima.accommodation.dto.SpecialInfoRequest;
 import com.vima.accommodation.dto.SpecialInfoResponse;
@@ -34,7 +35,7 @@ public interface AccommodationApi {
 	ResponseEntity<List<AccommodationResponse>> findAllByHostId(String hostId);
 
 	@PostMapping("/benefit")
-	ResponseEntity<AdditionalBenefit> addBenefit(AdditionalBenefit benefit);
+	ResponseEntity<AdditionalBenefit> addBenefit(AdditionalBenefitRequest benefit);
 
 	@PostMapping("/special-period")
 	ResponseEntity<SpecialInfoResponse> createSpecialPeriod(SpecialInfoRequest request);

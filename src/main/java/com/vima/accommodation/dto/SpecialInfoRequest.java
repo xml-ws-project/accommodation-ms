@@ -22,8 +22,8 @@ import lombok.experimental.FieldDefaults;
 public class SpecialInfoRequest {
 
 	@NotNull
-	UUID accommodationId;
-	@NotEmpty
+	String accommodationId;
+	@NotNull
 	DateRange specialPeriod;
 	@NotNull
 	double specialPrice;

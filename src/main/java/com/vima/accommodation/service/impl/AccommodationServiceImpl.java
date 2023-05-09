@@ -1,5 +1,6 @@
 package com.vima.accommodation.service.impl;
 
+import com.vima.accommodation.dto.AdditionalBenefitRequest;
 import com.vima.accommodation.dto.SpecialInfoRequest;
 import com.vima.accommodation.dto.accommodation.AccommodationRequest;
 import com.vima.accommodation.dto.accommodation.UpdateAccommodationRequest;
@@ -13,6 +14,7 @@ import com.vima.accommodation.model.SpecialInfo;
 import com.vima.accommodation.model.vo.DateRange;
 import com.vima.accommodation.repository.AccommodationRepository;
 import com.vima.accommodation.repository.AdditionalBenefitRepository;
+import com.vima.accommodation.repository.AddressRepository;
 import com.vima.accommodation.repository.SpecialInfoRepository;
 import com.vima.accommodation.service.AccommodationService;
 
@@ -31,6 +33,7 @@ public class AccommodationServiceImpl implements AccommodationService {
 	private final AccommodationRepository accommodationRepository;
 	private final SpecialInfoRepository specialInfoRepository;
 	private final AdditionalBenefitRepository benefitRepository;
+	private final AddressRepository addressRepository;
 
 	@Override
 	public Accommodation create(final AccommodationRequest request) {
@@ -40,6 +43,7 @@ public class AccommodationServiceImpl implements AccommodationService {
 			benefits.add(benefit);
 		});
 		var accommodation = AccommodationMapper.convertDtoToEntity(request, benefits);
+		addressRepository.save(accommodation.getAddress());
 		return accommodationRepository.save(accommodation);
 	}
 
@@ -71,25 +75,35 @@ public class AccommodationServiceImpl implements AccommodationService {
 	}
 
 	@Override
-	public AdditionalBenefit addBenefit(final AdditionalBenefit benefit) {
+	public AdditionalBenefit addBenefit(final AdditionalBenefitRequest request) {
+		var benefit = AdditionalBenefit.builder()
+			.id(UUID.randomUUID())
+			.name(request.getName())
+			.icon(request.getIcon())
+			.build();
 		return benefitRepository.save(benefit);
 	}
 
 	@Override
 	public SpecialInfo createSpecialPeriod(final SpecialInfoRequest request) {
-		var accommodation = accommodationRepository.findById(request.getAccommodationId()).orElseThrow(NotFoundException::new);
+		var accommodation = accommodationRepository.findById(UUID.fromString(request.getAccommodationId())).orElseThrow(NotFoundException::new);
 		var specialPeriod = request.getSpecialPeriod();
 		if (!isAvailableIncludeSpecialPeriod(accommodation.getAvailableInPeriod(), specialPeriod)
-			|| !isSpecialPeriodValid(specialPeriod, accommodation.getId())) throw new SpecialInfoException();
+			|| !isSpecialPeriodOverlaps(specialPeriod, accommodation.getId())
+			|| !isSpecialPeriodValid(specialPeriod)) throw new SpecialInfoException();
 		var specialInfo = SpecialInfoMapper.convertDtoToEntity(request, accommodation);
 		return specialInfoRepository.save(specialInfo);
+	}
+
+	private boolean isSpecialPeriodValid(DateRange specialPeriod) {
+		return specialPeriod.getStart().isBefore(specialPeriod.getEnd());
 	}
 
 	private boolean isAvailableIncludeSpecialPeriod(DateRange availablePeriod, DateRange specialPeriod) {
 		return availablePeriod.isIncludingPeriod(specialPeriod);
 	}
 
-	private boolean isSpecialPeriodValid(DateRange specialPeriod, UUID accommodationId) {
+	private boolean isSpecialPeriodOverlaps(DateRange specialPeriod, UUID accommodationId) {
 		List<SpecialInfo> specialList = specialInfoRepository.findAllByAccommodationId(accommodationId);
 		for (SpecialInfo specialInfo: specialList) {
 			if (specialInfo.getSpecialPeriod().isPartlyOverlap(specialPeriod)) return false;
