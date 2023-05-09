@@ -46,7 +46,7 @@ public class Accommodation {
 	@Column(nullable = false)
 	String name;
 
-	@Column
+	@Column(nullable = false)
 	String hostId;
 
 	@ManyToOne(fetch = FetchType.EAGER)
