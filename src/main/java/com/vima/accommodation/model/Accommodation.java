@@ -75,6 +75,7 @@ public class Accommodation {
 	DateRange availableInPeriod;
 
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	PaymentType paymentType;
 
 	@Column
