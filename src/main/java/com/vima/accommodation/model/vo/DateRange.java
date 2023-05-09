@@ -1,4 +1,4 @@
-package com.vima.accommodation.model;
+package com.vima.accommodation.model.vo;
 
 import java.time.LocalDate;
 

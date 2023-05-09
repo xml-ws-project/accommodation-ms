@@ -34,9 +34,6 @@ public class AdditionalBenefit {
 	@Column(nullable = false, unique = true)
 	String name;
 
-	@Column(nullable = false)
-	boolean isContained;
-
 	@Column
 	String icon;
 

@@ -1,6 +1,7 @@
 package com.vima.accommodation.model;
 
 import com.vima.accommodation.model.enums.PeriodType;
+import com.vima.accommodation.model.vo.DateRange;
 
 import java.util.UUID;
 
@@ -13,6 +14,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +29,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder(toBuilder = true)
-public class PriceInfo {
+public class SpecialInfo {
 
 	@Id
 	@GeneratedValue(generator = "UUID")
@@ -34,11 +37,12 @@ public class PriceInfo {
 	@Column(nullable = false, updatable = false, unique = true)
 	UUID id;
 
+	@ManyToOne
+	@JoinColumn(columnDefinition = "accommodation_id", referencedColumnName = "id")
+	Accommodation accommodation;
+
 	@Embedded
 	DateRange specialPeriod;
-
-	@Column(nullable = false)
-	double regularPrice;
 
 	@Column
 	double specialPrice;
