@@ -41,6 +41,7 @@ public class Address {
 	@Column(nullable = false)
 	String number;
 
+	@Column(nullable = false)
 	String postalCode;
 
 	Double longitude;
