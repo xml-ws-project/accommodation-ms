@@ -1,27 +1,30 @@
 package com.vima.accommodation.model;
 
-import com.vima.accommodation.model.enums.PaymentType;
 import com.vima.accommodation.model.vo.DateRange;
+import com.vima.gateway.PaymentType;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.Type;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,7 +43,8 @@ public class Accommodation {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(nullable = false, updatable = false, unique = true)
+	@Type(type = "org.hibernate.type.UUIDCharType")
+	@Column(nullable = false, updatable = false, unique = true, columnDefinition = "char(36)")
 	UUID id;
 
 	@Column(nullable = false)
@@ -53,14 +57,17 @@ public class Accommodation {
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	Address address;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "accommodation_benefits",
 	joinColumns = @JoinColumn(name = "accommodation_id"),
 	inverseJoinColumns = @JoinColumn(name = "benefit_id"))
 	List<AdditionalBenefit> benefits;
 
-	@Column
-	HashSet<String> images;
+	@ElementCollection
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@CollectionTable(name = "images", joinColumns = @JoinColumn(name = "accommodation_id"))
+	@Column(name = "image")
+	List<String> images;
 
 	@Column
 	int minGuests;
