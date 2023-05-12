@@ -3,7 +3,7 @@ package com.vima.accommodation.model.vo;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import jakarta.persistence.Embeddable;
+import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

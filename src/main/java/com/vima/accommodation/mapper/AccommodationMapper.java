@@ -1,12 +1,15 @@
 package com.vima.accommodation.mapper;
 
-import com.vima.accommodation.dto.accommodation.AccommodationRequest;
-import com.vima.accommodation.dto.accommodation.AccommodationResponse;
-import com.vima.accommodation.dto.AdditionalBenefitResponse;
+import com.vima.accommodation.Converter;
 import com.vima.accommodation.model.Accommodation;
 import com.vima.accommodation.model.AdditionalBenefit;
 import com.vima.accommodation.model.Address;
+import com.vima.accommodation.model.vo.DateRange;
+import com.vima.gateway.AccommodationRequest;
+import com.vima.gateway.AccommodationResponse;
+import com.vima.gateway.AdditionalBenefitResponse;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,19 +28,23 @@ public class AccommodationMapper {
 			.postalCode(request.getPostalCode())
 			.build();
 
+		LocalDate start = Converter.convertGoogleTimeStampToLocalDate(request.getAvailablePeriod().getStart());
+		LocalDate end = Converter.convertGoogleTimeStampToLocalDate(request.getAvailablePeriod().getEnd());
+		DateRange dateRange = new DateRange(start, end);
+
 		return Accommodation.builder()
 			.id(UUID.randomUUID())
 			.name(request.getName())
 			.hostId(request.getHostId())
 			.address(address)
-			.images(request.getImages())
+			.images(request.getImagesList())
 			.minGuests(request.getMinGuests())
 			.maxGuests(request.getMaxGuests())
 			.paymentType(request.getPaymentType())
-			.automaticAcceptance(request.isAutomaticAcceptance())
+			.automaticAcceptance(request.getAutomaticAcceptance())
 			.regularPrice(request.getRegularPrice())
 			.benefits(benefits)
-			.availableInPeriod(request.getAvailablePeriod())
+			.availableInPeriod(dateRange)
 			.build();
 	}
 
@@ -45,29 +52,29 @@ public class AccommodationMapper {
 
 		List<AdditionalBenefitResponse> benefits = new ArrayList<>();
 		accommodation.getBenefits().forEach(benefit -> {
-			AdditionalBenefitResponse benefitResp = AdditionalBenefitResponse.builder()
-				.id(benefit.getId().toString())
-				.name(benefit.getName())
-				.icon(benefit.getIcon())
+			AdditionalBenefitResponse benefitResp = AdditionalBenefitResponse.newBuilder()
+				.setId(benefit.getId().toString())
+				.setName(benefit.getName())
+				.setIcon(benefit.getIcon())
 				.build();
 			benefits.add(benefitResp);
 		});
 
-		return AccommodationResponse.builder()
-			.id(accommodation.getId().toString())
-			.name(accommodation.getName())
-			.hostId(accommodation.getHostId())
-			.country(accommodation.getAddress().getCountry())
-			.city(accommodation.getAddress().getCity())
-			.street(accommodation.getAddress().getStreet())
-			.number(accommodation.getAddress().getNumber())
-			.postalCode(accommodation.getAddress().getPostalCode())
-			.benefits(benefits)
-			.regularPrice(accommodation.getRegularPrice())
-			.maxGuests(accommodation.getMaxGuests())
-			.minGuests(accommodation.getMinGuests())
-			.paymentType(accommodation.getPaymentType())
-			.images(accommodation.getImages())
+		return AccommodationResponse.newBuilder()
+			.setId(accommodation.getId().toString())
+			.setName(accommodation.getName())
+			.setHostId(accommodation.getHostId())
+			.setCountry(accommodation.getAddress().getCountry())
+			.setCity(accommodation.getAddress().getCity())
+			.setStreet(accommodation.getAddress().getStreet())
+			.setNumber(accommodation.getAddress().getNumber())
+			.setPostalCode(accommodation.getAddress().getPostalCode())
+			.setRegularPrice(accommodation.getRegularPrice())
+			.setMaxGuests(accommodation.getMaxGuests())
+			.setMinGuests(accommodation.getMinGuests())
+			.addAllBenefits(benefits)
+			.setPaymentType(accommodation.getPaymentType())
+			.addAllImages(accommodation.getImages())
 			.build();
 	}
 

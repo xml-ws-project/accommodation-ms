@@ -1,21 +1,23 @@
 package com.vima.accommodation.model;
 
-import com.vima.accommodation.model.enums.PeriodType;
 import com.vima.accommodation.model.vo.DateRange;
+import com.vima.gateway.DataRange;
+import com.vima.gateway.PeriodType;
 
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +36,8 @@ public class SpecialInfo {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(nullable = false, updatable = false, unique = true)
+	@Type(type = "org.hibernate.type.UUIDCharType")
+	@Column(nullable = false, updatable = false, unique = true, columnDefinition = "char(36)")
 	UUID id;
 
 	@ManyToOne

@@ -1,9 +1,6 @@
 package com.vima.accommodation.service.impl;
 
-import com.vima.accommodation.dto.AdditionalBenefitRequest;
-import com.vima.accommodation.dto.SpecialInfoRequest;
-import com.vima.accommodation.dto.accommodation.AccommodationRequest;
-import com.vima.accommodation.dto.accommodation.UpdateAccommodationRequest;
+import com.vima.accommodation.Converter;
 import com.vima.accommodation.exception.NotFoundException;
 import com.vima.accommodation.exception.SpecialInfoException;
 import com.vima.accommodation.mapper.AccommodationMapper;
@@ -17,7 +14,12 @@ import com.vima.accommodation.repository.AdditionalBenefitRepository;
 import com.vima.accommodation.repository.AddressRepository;
 import com.vima.accommodation.repository.SpecialInfoRepository;
 import com.vima.accommodation.service.AccommodationService;
+import com.vima.gateway.AccommodationRequest;
+import com.vima.gateway.AdditionalBenefitRequest;
+import com.vima.gateway.SpecialInfoRequest;
+import com.vima.gateway.UpdateAccommodationRequest;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -38,7 +40,7 @@ public class AccommodationServiceImpl implements AccommodationService {
 	@Override
 	public Accommodation create(final AccommodationRequest request) {
 		List<AdditionalBenefit> benefits = new ArrayList<>();
-		request.getBenefitsIds().forEach(id -> {
+		request.getBenefitsIdsList().forEach(id -> {
 			var benefit = benefitRepository.findById(UUID.fromString(id)).orElseThrow(NotFoundException::new);
 			benefits.add(benefit);
 		});
@@ -50,10 +52,13 @@ public class AccommodationServiceImpl implements AccommodationService {
 	@Override
 	public void update(final UpdateAccommodationRequest request) {
 		var accommodation = accommodationRepository.findById(UUID.fromString(request.getAccommodationId())).orElseThrow(NotFoundException::new);
-		if (!request.getPeriod().isEmpty()) {
-			accommodation.setAvailableInPeriod(request.getPeriod());
+		LocalDate start = Converter.convertGoogleTimeStampToLocalDate(request.getPeriod().getStart());
+		LocalDate end = Converter.convertGoogleTimeStampToLocalDate(request.getPeriod().getEnd());
+		DateRange period = new DateRange(start, end);
+		if (!period.isEmpty()) {
+			accommodation.setAvailableInPeriod(period);
 		}
-		if (!request.getPrice().isNaN()) {
+		if (!Double.isNaN(request.getPrice())) {
 			accommodation.setRegularPrice(request.getPrice());
 		}
 		accommodationRepository.save(accommodation);
@@ -87,10 +92,12 @@ public class AccommodationServiceImpl implements AccommodationService {
 	@Override
 	public SpecialInfo createSpecialPeriod(final SpecialInfoRequest request) {
 		var accommodation = accommodationRepository.findById(UUID.fromString(request.getAccommodationId())).orElseThrow(NotFoundException::new);
-		var specialPeriod = request.getSpecialPeriod();
-		if (!isAvailableIncludeSpecialPeriod(accommodation.getAvailableInPeriod(), specialPeriod)
-			|| !isSpecialPeriodOverlaps(specialPeriod, accommodation.getId())
-			|| !isSpecialPeriodValid(specialPeriod)) throw new SpecialInfoException();
+		LocalDate start = Converter.convertGoogleTimeStampToLocalDate(request.getSpecialPeriod().getStart());
+		LocalDate end = Converter.convertGoogleTimeStampToLocalDate(request.getSpecialPeriod().getEnd());
+		DateRange period = new DateRange(start, end);
+		if (!isAvailableIncludeSpecialPeriod(accommodation.getAvailableInPeriod(), period)
+			|| !isSpecialPeriodOverlaps(period, accommodation.getId())
+			|| !isSpecialPeriodValid(period)) throw new SpecialInfoException();
 		var specialInfo = SpecialInfoMapper.convertDtoToEntity(request, accommodation);
 		return specialInfoRepository.save(specialInfo);
 	}

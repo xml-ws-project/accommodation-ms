@@ -1,14 +1,9 @@
-spring:
-  application:
-    name: accommodation-ms
-server:
-  port: 8083
-eureka:
-  instance:
-    preferIpAddress: true
-  renewalPercentThreshold: 0.85
-  server:
-    enableSelfPreservation: false
-  client:
-    serviceUrl:
-      defaultZone: http://discovery:8761/eureka
+#eureka:
+#  instance:
+#    preferIpAddress: true
+#  renewalPercentThreshold: 0.85
+#  server:
+#    enableSelfPreservation: false
+#  client:
+#    serviceUrl:
+#      defaultZone: http://discovery:8761/eureka
