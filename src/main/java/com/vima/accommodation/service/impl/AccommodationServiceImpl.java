@@ -112,8 +112,8 @@ public class AccommodationServiceImpl implements AccommodationService {
 			.end(LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getPeriod().getEnd()))
 			.build();
 		List<Accommodation> searchResult = search(request);
-		//List<Accommodation> busyAccommodations = callReservation(request);
-		//searchResult.removeAll(busyAccommodations);
+		List<Accommodation> busyAccommodations = callReservation(request);
+		searchResult.removeAll(busyAccommodations);
 		for (Accommodation accommodation: searchResult) {
 			SearchPriceList priceList = calculatePriceList(accommodation, period);
 			searchResponseList.add(AccommodationMapper.convertToSearchResponse(accommodation, priceList));
