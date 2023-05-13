@@ -1,12 +1,16 @@
 package com.vima.accommodation.service.impl;
 
+import com.vima.accommodation.converter.StringToUUIDListConverter;
+import com.vima.gateway.ReservationServiceGrpc;
+import com.vima.gateway.SearchReservationRequest;
 import com.vima.accommodation.dto.SearchPriceList;
+import com.vima.gateway.AccommodationServiceGrpc;
+import com.vima.gateway.SearchList;
 import com.vima.gateway.SearchRequest;
 import com.vima.accommodation.converter.LocalDateConverter;
 import com.vima.accommodation.exception.NotFoundException;
-import com.vima.accommodation.exception.SpecialInfoException;
 import com.vima.accommodation.mapper.AccommodationMapper;
-import com.vima.accommodation.mapper.SpecialInfoMapper;
+import com.vima.accommodation.dto.gRPCObject;
 import com.vima.accommodation.model.Accommodation;
 import com.vima.accommodation.model.AdditionalBenefit;
 import com.vima.accommodation.model.SpecialInfo;
@@ -17,8 +21,8 @@ import com.vima.accommodation.repository.AddressRepository;
 import com.vima.accommodation.repository.SpecialInfoRepository;
 import com.vima.accommodation.service.AccommodationService;
 import com.vima.gateway.AccommodationRequest;
-import com.vima.gateway.AdditionalBenefitRequest;
-import com.vima.gateway.SpecialInfoRequest;
+import com.vima.gateway.SearchReservationResponse;
+import com.vima.gateway.SearchResponse;
 import com.vima.gateway.UpdateAccommodationRequest;
 
 import java.time.Duration;
@@ -36,6 +40,8 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Service;
 
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -99,7 +105,50 @@ public class AccommodationServiceImpl implements AccommodationService {
 	}
 
 	@Override
-	public List<Accommodation> search(final SearchRequest request) {
+	public SearchList searchAccommodations(final SearchRequest request) {
+		SearchList result = SearchList.newBuilder().build();
+		DateRange period = DateRange.builder()
+			.start(LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getPeriod().getStart()))
+			.end(LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getPeriod().getEnd()))
+			.build();
+		List<Accommodation> searchResult = search(request);
+		List<Accommodation> busyAccommodations = callReservation(request);
+		searchResult.removeAll(busyAccommodations);
+		for (Accommodation accommodation: searchResult) {
+			SearchPriceList priceList = calculatePriceList(accommodation, period);
+			SearchResponse searchResponse = SearchResponse.newBuilder()
+				.setAccommodation(AccommodationMapper.convertEntityToDto(accommodation))
+				.setUnitPrice(priceList.getUnitPrice())
+				.setTotalPrice(priceList.getTotalPrice())
+				.build();
+			result.toBuilder().addResponse(searchResponse).build();
+		}
+		return result;
+	}
+
+	private List<Accommodation> callReservation(final SearchRequest request) {
+		SearchReservationRequest reservationRequest = SearchReservationRequest.newBuilder()
+			.setCountry(request.getCountry())
+			.setCity(request.getCity())
+			.setGuests(request.getGuests())
+			.setPeriod(request.getPeriod())
+			.build();
+		SearchReservationResponse reservationResponse = initGRPC().getStub().searchReservation(reservationRequest);
+		List<UUID> accommodationIds = StringToUUIDListConverter.convert(reservationResponse.getIdsList());
+		return accommodationRepository.findAllById(accommodationIds);
+	}
+
+	private gRPCObject initGRPC() {
+		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9094)
+			.usePlaintext()
+			.build();
+		return gRPCObject.builder()
+			.channel(channel)
+			.stub(ReservationServiceGrpc.newBlockingStub(channel))
+			.build();
+	}
+
+	private List<Accommodation> search(SearchRequest request) {
 		final CriteriaBuilder cb = em.getCriteriaBuilder();
 		final CriteriaQuery<Accommodation> criteriaQuery = cb.createQuery(Accommodation.class);
 		Root<Accommodation> accommodationRoot = criteriaQuery.from(Accommodation.class);
@@ -134,14 +183,11 @@ public class AccommodationServiceImpl implements AccommodationService {
 
 	//testirati
 	private SearchPriceList calculatePriceList(Accommodation accommodation, DateRange period) {
-
-//		LocalDate startDate = LocalDateConverter.convertGoogleTimeStampToLocalDate(period.getStart());
-//		LocalDate endDate = LocalDateConverter.convertGoogleTimeStampToLocalDate(period.getEnd()).plusDays(1);
 		List<SpecialInfo> specials = specialInfoRepository.findAllByAccommodationId(accommodation.getId());
 		SearchPriceList searchPriceList = new SearchPriceList(0, 0);
 		boolean specialIsSet = false;
 
-		for (LocalDate currDate = period.getStart(); currDate.isBefore(period.getEnd()); currDate = currDate.plusDays(1)) {
+		for (LocalDate currDate = period.getStart(); currDate.isBefore(period.getEnd().plusDays(1)); currDate = currDate.plusDays(1)) {
 			for (SpecialInfo special : specials) {
 				if (special.getSpecialPeriod().isIncludingDate(currDate)) {
 					searchPriceList.setTotalPrice(searchPriceList.getTotalPrice() + special.getSpecialPrice());

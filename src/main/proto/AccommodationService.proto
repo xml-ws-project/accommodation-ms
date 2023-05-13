@@ -99,6 +99,16 @@ message AccommodationList {
   repeated AccommodationResponse response = 1;
 }
 
+message SearchResponse {
+  AccommodationResponse accommodation = 1;
+  double unitPrice = 2;
+  double totalPrice = 3;
+}
+
+message SearchList {
+  repeated SearchResponse response = 1;
+}
+
 message Empty {
 
 }
@@ -120,5 +130,5 @@ service AccommodationService {
   rpc findAllByHostId(Uuid) returns (AccommodationList);
   rpc addBenefit(AdditionalBenefitRequest) returns (AdditionalBenefitResponse);
   rpc createSpecialPeriod(SpecialInfoRequest) returns (SpecialInfoResponse);
-  rpc searchAccommodation(SearchRequest) returns (AccommodationList);
+  rpc searchAccommodation(SearchRequest) returns (SearchList);
 }
