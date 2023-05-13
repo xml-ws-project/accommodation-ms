@@ -48,6 +48,7 @@ message AccommodationResponse {
   int32 maxGuests = 12;
   double regularPrice = 13;
   PaymentType paymentType = 14;
+  bool automaticAcceptance = 15;
 }
 
 message UpdateAccommodationRequest {

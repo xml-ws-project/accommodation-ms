@@ -77,6 +77,7 @@ public class AccommodationMapper {
 			.addAllBenefits(benefits)
 			.setPaymentType(accommodation.getPaymentType())
 			.addAllImages(accommodation.getImages())
+			.setAutomaticAcceptance(accommodation.isAutomaticAcceptance())
 			.build();
 	}
 
