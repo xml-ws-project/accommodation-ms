@@ -106,24 +106,21 @@ public class AccommodationServiceImpl implements AccommodationService {
 
 	@Override
 	public SearchList searchAccommodations(final SearchRequest request) {
-		SearchList result = SearchList.newBuilder().build();
+		List<SearchResponse> searchResponseList = new ArrayList<>();
 		DateRange period = DateRange.builder()
 			.start(LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getPeriod().getStart()))
 			.end(LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getPeriod().getEnd()))
 			.build();
 		List<Accommodation> searchResult = search(request);
-		List<Accommodation> busyAccommodations = callReservation(request);
-		searchResult.removeAll(busyAccommodations);
+		//List<Accommodation> busyAccommodations = callReservation(request);
+		//searchResult.removeAll(busyAccommodations);
 		for (Accommodation accommodation: searchResult) {
 			SearchPriceList priceList = calculatePriceList(accommodation, period);
-			SearchResponse searchResponse = SearchResponse.newBuilder()
-				.setAccommodation(AccommodationMapper.convertEntityToDto(accommodation))
-				.setUnitPrice(priceList.getUnitPrice())
-				.setTotalPrice(priceList.getTotalPrice())
-				.build();
-			result.toBuilder().addResponse(searchResponse).build();
+			searchResponseList.add(AccommodationMapper.convertToSearchResponse(accommodation, priceList));
 		}
-		return result;
+		return SearchList.newBuilder()
+			.addAllResponse(searchResponseList)
+			.build();
 	}
 
 	private List<Accommodation> callReservation(final SearchRequest request) {
@@ -187,7 +184,7 @@ public class AccommodationServiceImpl implements AccommodationService {
 		SearchPriceList searchPriceList = new SearchPriceList(0, 0);
 		boolean specialIsSet = false;
 
-		for (LocalDate currDate = period.getStart(); currDate.isBefore(period.getEnd().plusDays(1)); currDate = currDate.plusDays(1)) {
+		for (LocalDate currDate = period.getStart(); currDate.isBefore(period.getEnd()); currDate = currDate.plusDays(1)) {
 			for (SpecialInfo special : specials) {
 				if (special.getSpecialPeriod().isIncludingDate(currDate)) {
 					searchPriceList.setTotalPrice(searchPriceList.getTotalPrice() + special.getSpecialPrice());
@@ -201,8 +198,8 @@ public class AccommodationServiceImpl implements AccommodationService {
 			specialIsSet = false;
 		}
 
-		long numberOfDays = Duration.between(period.getStart(), period.getEnd()).toDays();
-		searchPriceList.setUnitPrice(searchPriceList.getTotalPrice() / numberOfDays);
+		long numberOfDays = Duration.between(period.getStart().atStartOfDay(), period.getEnd().atStartOfDay()).toDays();
+		searchPriceList.setUnitPrice(Math.round(searchPriceList.getTotalPrice() / numberOfDays * 100)/100.0);
 		return searchPriceList;
 	}
 

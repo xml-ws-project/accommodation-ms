@@ -1,6 +1,7 @@
 package com.vima.accommodation.mapper;
 
 import com.vima.accommodation.converter.LocalDateConverter;
+import com.vima.accommodation.dto.SearchPriceList;
 import com.vima.accommodation.model.Accommodation;
 import com.vima.accommodation.model.AdditionalBenefit;
 import com.vima.accommodation.model.Address;
@@ -8,6 +9,7 @@ import com.vima.accommodation.model.vo.DateRange;
 import com.vima.gateway.AccommodationRequest;
 import com.vima.gateway.AccommodationResponse;
 import com.vima.gateway.AdditionalBenefitResponse;
+import com.vima.gateway.SearchResponse;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -85,6 +87,14 @@ public class AccommodationMapper {
 			responseList.add(accommodationResp);
 		});
 		return responseList;
+	}
+
+	public static SearchResponse convertToSearchResponse(Accommodation accommodation, SearchPriceList priceList) {
+		return SearchResponse.newBuilder()
+			.setAccommodation(convertEntityToDto(accommodation))
+			.setUnitPrice(priceList.getUnitPrice())
+			.setTotalPrice(priceList.getTotalPrice())
+			.build();
 	}
 
 

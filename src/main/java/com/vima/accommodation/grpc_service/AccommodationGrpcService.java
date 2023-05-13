@@ -97,11 +97,8 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 
 	@Override
 	public void searchAccommodation(SearchRequest request, StreamObserver<SearchList> responseObserver) {
-//		var accommodationList = AccommodationMapper.convertEntityToDtoList(accommodationService.searchAccommodations(request));
-		SearchList responseList = SearchList.newBuilder()
-//			.addAllResponse()
-			.build();
-//		responseObserver.onNext(responseList);
+		var searchResponse = accommodationService.searchAccommodations(request);
+		responseObserver.onNext(searchResponse);
 		responseObserver.onCompleted();
 	}
 }

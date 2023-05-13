@@ -3,6 +3,7 @@ option java_multiple_files = true;
 package com.vima.gateway;
 
 import "google/protobuf/timestamp.proto";
+import "Shared.proto";
 
 enum PaymentType {
   OVERALL = 0;
@@ -12,15 +13,6 @@ enum PaymentType {
 enum PeriodType {
   SEASON = 0;
   HOLIDAYS = 1;
-}
-
-message Uuid {
-  string value = 1;
-}
-
-message DateRange {
-  google.protobuf.Timestamp start = 1;
-  google.protobuf.Timestamp end = 2;
 }
 
 message AccommodationRequest {
@@ -107,10 +99,6 @@ message SearchResponse {
 
 message SearchList {
   repeated SearchResponse response = 1;
-}
-
-message Empty {
-
 }
 
 message SearchRequest {
