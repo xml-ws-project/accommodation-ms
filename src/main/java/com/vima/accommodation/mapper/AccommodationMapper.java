@@ -1,6 +1,6 @@
 package com.vima.accommodation.mapper;
 
-import com.vima.accommodation.Converter;
+import com.vima.accommodation.converter.LocalDateConverter;
 import com.vima.accommodation.model.Accommodation;
 import com.vima.accommodation.model.AdditionalBenefit;
 import com.vima.accommodation.model.Address;
@@ -28,8 +28,8 @@ public class AccommodationMapper {
 			.postalCode(request.getPostalCode())
 			.build();
 
-		LocalDate start = Converter.convertGoogleTimeStampToLocalDate(request.getAvailablePeriod().getStart());
-		LocalDate end = Converter.convertGoogleTimeStampToLocalDate(request.getAvailablePeriod().getEnd());
+		LocalDate start = LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getAvailablePeriod().getStart());
+		LocalDate end = LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getAvailablePeriod().getEnd());
 		DateRange dateRange = new DateRange(start, end);
 
 		return Accommodation.builder()

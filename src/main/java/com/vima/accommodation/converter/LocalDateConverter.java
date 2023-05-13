@@ -1,4 +1,4 @@
-package com.vima.accommodation;
+package com.vima.accommodation.converter;
 
 import com.google.protobuf.Timestamp;
 
@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 
-public class Converter {
+public class LocalDateConverter {
 	public static LocalDate convertGoogleTimeStampToLocalDate(Timestamp timestamp) {
 		return Instant
 			.ofEpochSecond(timestamp.getSeconds() , timestamp.getNanos())

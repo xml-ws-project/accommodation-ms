@@ -1,6 +1,8 @@
 package com.vima.accommodation.service.impl;
 
-import com.vima.accommodation.Converter;
+import com.vima.accommodation.dto.SearchPriceList;
+import com.vima.gateway.SearchRequest;
+import com.vima.accommodation.converter.LocalDateConverter;
 import com.vima.accommodation.exception.NotFoundException;
 import com.vima.accommodation.exception.SpecialInfoException;
 import com.vima.accommodation.mapper.AccommodationMapper;
@@ -19,10 +21,18 @@ import com.vima.gateway.AdditionalBenefitRequest;
 import com.vima.gateway.SpecialInfoRequest;
 import com.vima.gateway.UpdateAccommodationRequest;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Service;
 
@@ -36,6 +46,15 @@ public class AccommodationServiceImpl implements AccommodationService {
 	private final SpecialInfoRepository specialInfoRepository;
 	private final AdditionalBenefitRepository benefitRepository;
 	private final AddressRepository addressRepository;
+	private final EntityManager em;
+	private static final String ADDRESS = "address";
+	private static final String CITY = "city";
+	private static final String COUNTRY = "country";
+	private static final String MAX_GUESTS = "maxGuests";
+	private static final String MIN_GUESTS = "minGuests";
+	private static final String AVAILABLE_PERIOD = "availableInPeriod";
+	private static final String START = "start";
+	private static final String END = "end";
 
 	@Override
 	public Accommodation create(final AccommodationRequest request) {
@@ -52,8 +71,8 @@ public class AccommodationServiceImpl implements AccommodationService {
 	@Override
 	public void update(final UpdateAccommodationRequest request) {
 		var accommodation = accommodationRepository.findById(UUID.fromString(request.getAccommodationId())).orElseThrow(NotFoundException::new);
-		LocalDate start = Converter.convertGoogleTimeStampToLocalDate(request.getPeriod().getStart());
-		LocalDate end = Converter.convertGoogleTimeStampToLocalDate(request.getPeriod().getEnd());
+		LocalDate start = LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getPeriod().getStart());
+		LocalDate end = LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getPeriod().getEnd());
 		DateRange period = new DateRange(start, end);
 		if (!period.isEmpty()) {
 			accommodation.setAvailableInPeriod(period);
@@ -80,42 +99,65 @@ public class AccommodationServiceImpl implements AccommodationService {
 	}
 
 	@Override
-	public AdditionalBenefit addBenefit(final AdditionalBenefitRequest request) {
-		var benefit = AdditionalBenefit.builder()
-			.id(UUID.randomUUID())
-			.name(request.getName())
-			.icon(request.getIcon())
-			.build();
-		return benefitRepository.save(benefit);
-	}
+	public List<Accommodation> search(final SearchRequest request) {
+		final CriteriaBuilder cb = em.getCriteriaBuilder();
+		final CriteriaQuery<Accommodation> criteriaQuery = cb.createQuery(Accommodation.class);
+		Root<Accommodation> accommodationRoot = criteriaQuery.from(Accommodation.class);
+		List<Predicate> predicates = new ArrayList<>();
 
-	@Override
-	public SpecialInfo createSpecialPeriod(final SpecialInfoRequest request) {
-		var accommodation = accommodationRepository.findById(UUID.fromString(request.getAccommodationId())).orElseThrow(NotFoundException::new);
-		LocalDate start = Converter.convertGoogleTimeStampToLocalDate(request.getSpecialPeriod().getStart());
-		LocalDate end = Converter.convertGoogleTimeStampToLocalDate(request.getSpecialPeriod().getEnd());
-		DateRange period = new DateRange(start, end);
-		if (!isAvailableIncludeSpecialPeriod(accommodation.getAvailableInPeriod(), period)
-			|| !isSpecialPeriodOverlaps(period, accommodation.getId())
-			|| !isSpecialPeriodValid(period)) throw new SpecialInfoException();
-		var specialInfo = SpecialInfoMapper.convertDtoToEntity(request, accommodation);
-		return specialInfoRepository.save(specialInfo);
-	}
-
-	private boolean isSpecialPeriodValid(DateRange specialPeriod) {
-		return specialPeriod.getStart().isBefore(specialPeriod.getEnd());
-	}
-
-	private boolean isAvailableIncludeSpecialPeriod(DateRange availablePeriod, DateRange specialPeriod) {
-		return availablePeriod.isIncludingPeriod(specialPeriod);
-	}
-
-	private boolean isSpecialPeriodOverlaps(DateRange specialPeriod, UUID accommodationId) {
-		List<SpecialInfo> specialList = specialInfoRepository.findAllByAccommodationId(accommodationId);
-		for (SpecialInfo specialInfo: specialList) {
-			if (specialInfo.getSpecialPeriod().isPartlyOverlap(specialPeriod)) return false;
+		if (!request.getCountry().isEmpty()) {
+			predicates.add(cb.like(accommodationRoot.get(ADDRESS).get(COUNTRY), request.getCountry() + "%"));
 		}
-		return true;
+		if (!request.getCity().isEmpty()) {
+			predicates.add(cb.like(accommodationRoot.get(ADDRESS).get(CITY), request.getCity() + "%"));
+		}
+		predicates.add(cb.greaterThanOrEqualTo(accommodationRoot.get(MAX_GUESTS), request.getGuests()));
+		predicates.add(cb.lessThanOrEqualTo(accommodationRoot.get(MIN_GUESTS), request.getGuests()));
+
+		if (request.getPeriod().getStart().getSeconds() != 0 || request.getPeriod().getStart().getNanos() != 0) {
+			LocalDate startDate = LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getPeriod().getStart());
+			predicates.add(cb.lessThanOrEqualTo(accommodationRoot.get(AVAILABLE_PERIOD).get(START), startDate));
+		}
+		if (request.getPeriod().getEnd().getSeconds() != 0 || request.getPeriod().getEnd().getNanos() != 0) {
+			LocalDate endDate = LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getPeriod().getEnd());
+			predicates.add(cb.greaterThanOrEqualTo(accommodationRoot.get(AVAILABLE_PERIOD).get(END), endDate));
+		}
+
+		criteriaQuery.where(cb.and(predicates.toArray(new Predicate[0])));
+
+		final TypedQuery<Accommodation> query = em.createQuery(criteriaQuery);
+		query.setFirstResult(request.getPageSize() * request.getPageNumber());
+		query.setMaxResults(request.getPageSize());
+
+		return query.getResultList();
+	}
+
+	//testirati
+	private SearchPriceList calculatePriceList(Accommodation accommodation, DateRange period) {
+
+//		LocalDate startDate = LocalDateConverter.convertGoogleTimeStampToLocalDate(period.getStart());
+//		LocalDate endDate = LocalDateConverter.convertGoogleTimeStampToLocalDate(period.getEnd()).plusDays(1);
+		List<SpecialInfo> specials = specialInfoRepository.findAllByAccommodationId(accommodation.getId());
+		SearchPriceList searchPriceList = new SearchPriceList(0, 0);
+		boolean specialIsSet = false;
+
+		for (LocalDate currDate = period.getStart(); currDate.isBefore(period.getEnd()); currDate = currDate.plusDays(1)) {
+			for (SpecialInfo special : specials) {
+				if (special.getSpecialPeriod().isIncludingDate(currDate)) {
+					searchPriceList.setTotalPrice(searchPriceList.getTotalPrice() + special.getSpecialPrice());
+					specialIsSet = true;
+					break;
+				}
+			}
+			if (!specialIsSet) {
+				searchPriceList.setTotalPrice(searchPriceList.getTotalPrice() + accommodation.getRegularPrice());
+			}
+			specialIsSet = false;
+		}
+
+		long numberOfDays = Duration.between(period.getStart(), period.getEnd()).toDays();
+		searchPriceList.setUnitPrice(searchPriceList.getTotalPrice() / numberOfDays);
+		return searchPriceList;
 	}
 
 }

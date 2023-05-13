@@ -3,7 +3,6 @@ option java_multiple_files = true;
 package com.vima.gateway;
 
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/empty.proto";
 
 enum PaymentType {
   OVERALL = 0;
@@ -19,7 +18,7 @@ message Uuid {
   string value = 1;
 }
 
-message DataRange {
+message DateRange {
   google.protobuf.Timestamp start = 1;
   google.protobuf.Timestamp end = 2;
 }
@@ -39,7 +38,7 @@ message AccommodationRequest {
   bool automaticAcceptance = 12;
   double regularPrice = 13;
   repeated string benefitsIds = 14;
-  DataRange availablePeriod = 15;
+  DateRange availablePeriod = 15;
 }
 
 message AccommodationResponse {
@@ -61,13 +60,13 @@ message AccommodationResponse {
 
 message UpdateAccommodationRequest {
   string accommodationId = 1;
-  DataRange period = 2;
+  DateRange period = 2;
   double price = 3;
 }
 
 message SpecialInfoRequest {
   string accommodationId = 1;
-  DataRange specialPeriod = 2;
+  DateRange specialPeriod = 2;
   double specialPrice = 3;
   PeriodType periodType = 4;
 }
@@ -104,9 +103,14 @@ message Empty {
 
 }
 
-//message HelloWorld {
-//  string name = 1;
-//}
+message SearchRequest {
+  string country = 1;
+  string city = 2;
+  int32 guests = 3;
+  DateRange period = 4;
+  int32 pageSize = 5;
+  int32 pageNumber = 6;
+}
 
 service AccommodationService {
   rpc create(AccommodationRequest) returns (AccommodationResponse);
@@ -116,5 +120,5 @@ service AccommodationService {
   rpc findAllByHostId(Uuid) returns (AccommodationList);
   rpc addBenefit(AdditionalBenefitRequest) returns (AdditionalBenefitResponse);
   rpc createSpecialPeriod(SpecialInfoRequest) returns (SpecialInfoResponse);
-//  rpc hello(HelloWorld) returns (HelloWorld);
+  rpc searchAccommodation(SearchRequest) returns (AccommodationList);
 }

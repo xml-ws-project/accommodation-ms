@@ -1,5 +1,8 @@
 package com.vima.accommodation.grpc_service;
 
+import com.vima.accommodation.service.AdditionalBenefitService;
+import com.vima.accommodation.service.SpecialInfoService;
+import com.vima.gateway.SearchRequest;
 import com.vima.accommodation.mapper.AccommodationMapper;
 import com.vima.accommodation.mapper.SpecialInfoMapper;
 import com.vima.accommodation.service.AccommodationService;
@@ -27,6 +30,8 @@ import lombok.RequiredArgsConstructor;
 public class AccommodationGrpcService extends AccommodationServiceGrpc.AccommodationServiceImplBase {
 
 	private final AccommodationService accommodationService;
+	private final SpecialInfoService specialInfoService;
+	private final AdditionalBenefitService additionalBenefitService;
 
 	@Override
 	public void findAll(Empty request, StreamObserver<AccommodationList> responseObserver) {
@@ -72,7 +77,7 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 
 	@Override
 	public void addBenefit(AdditionalBenefitRequest request, StreamObserver<AdditionalBenefitResponse> responseObserver) {
-		var benefit = accommodationService.addBenefit(request);
+		var benefit = additionalBenefitService.addBenefit(request);
 		AdditionalBenefitResponse benefitResponse = AdditionalBenefitResponse.newBuilder()
 				.setId(benefit.getId().toString())
 				.setName(benefit.getName())
@@ -84,8 +89,18 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 
 	@Override
 	public void createSpecialPeriod(SpecialInfoRequest request, StreamObserver<SpecialInfoResponse> responseObserver) {
-		var specialInfo = SpecialInfoMapper.convertEntityToDto(accommodationService.createSpecialPeriod(request));
+		var specialInfo = SpecialInfoMapper.convertEntityToDto(specialInfoService.createSpecialPeriod(request));
 		responseObserver.onNext(specialInfo);
+		responseObserver.onCompleted();
+	}
+
+	@Override
+	public void searchAccommodation(SearchRequest request, StreamObserver<AccommodationList> responseObserver) {
+		var accommodationList = AccommodationMapper.convertEntityToDtoList(accommodationService.search(request));
+		AccommodationList responseList = AccommodationList.newBuilder()
+			.addAllResponse(accommodationList)
+			.build();
+		responseObserver.onNext(responseList);
 		responseObserver.onCompleted();
 	}
 }

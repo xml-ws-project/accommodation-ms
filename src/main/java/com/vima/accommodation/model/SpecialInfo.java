@@ -1,7 +1,6 @@
 package com.vima.accommodation.model;
 
 import com.vima.accommodation.model.vo.DateRange;
-import com.vima.gateway.DataRange;
 import com.vima.gateway.PeriodType;
 
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package com.vima.accommodation.mapper;
 
-import com.vima.accommodation.Converter;
+import com.vima.accommodation.converter.LocalDateConverter;
 import com.vima.accommodation.model.Accommodation;
 import com.vima.accommodation.model.SpecialInfo;
 import com.vima.accommodation.model.vo.DateRange;
@@ -18,8 +18,8 @@ public class SpecialInfoMapper {
 
 	public static SpecialInfo convertDtoToEntity(SpecialInfoRequest request, Accommodation accommodation) {
 
-		LocalDate start = Converter.convertGoogleTimeStampToLocalDate(request.getSpecialPeriod().getStart());
-		LocalDate end = Converter.convertGoogleTimeStampToLocalDate(request.getSpecialPeriod().getEnd());
+		LocalDate start = LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getSpecialPeriod().getStart());
+		LocalDate end = LocalDateConverter.convertGoogleTimeStampToLocalDate(request.getSpecialPeriod().getEnd());
 		DateRange dateRange = new DateRange(start, end);
 
 		return SpecialInfo.builder()
