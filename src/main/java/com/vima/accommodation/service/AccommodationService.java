@@ -1,5 +1,6 @@
 package com.vima.accommodation.service;
 
+import com.vima.gateway.SearchList;
 import com.vima.gateway.SearchRequest;
 import com.vima.accommodation.model.Accommodation;
 import com.vima.accommodation.model.AdditionalBenefit;
@@ -18,5 +19,6 @@ public interface AccommodationService {
 	Accommodation findById(UUID id);
 	List<Accommodation> findAllByHostId(String hostId);
 	List<Accommodation> findAll();
-	List<Accommodation> search(SearchRequest request);
+	SearchList searchAccommodations(SearchRequest request);
+
 }

@@ -3,6 +3,7 @@ option java_multiple_files = true;
 package com.vima.gateway;
 
 import "google/protobuf/timestamp.proto";
+import "Shared.proto";
 
 enum PaymentType {
   OVERALL = 0;
@@ -12,15 +13,6 @@ enum PaymentType {
 enum PeriodType {
   SEASON = 0;
   HOLIDAYS = 1;
-}
-
-message Uuid {
-  string value = 1;
-}
-
-message DateRange {
-  google.protobuf.Timestamp start = 1;
-  google.protobuf.Timestamp end = 2;
 }
 
 message AccommodationRequest {
@@ -56,6 +48,7 @@ message AccommodationResponse {
   int32 maxGuests = 12;
   double regularPrice = 13;
   PaymentType paymentType = 14;
+  bool automaticAcceptance = 15;
 }
 
 message UpdateAccommodationRequest {
@@ -99,8 +92,14 @@ message AccommodationList {
   repeated AccommodationResponse response = 1;
 }
 
-message Empty {
+message SearchResponse {
+  AccommodationResponse accommodation = 1;
+  double unitPrice = 2;
+  double totalPrice = 3;
+}
 
+message SearchList {
+  repeated SearchResponse response = 1;
 }
 
 message SearchRequest {
@@ -120,5 +119,5 @@ service AccommodationService {
   rpc findAllByHostId(Uuid) returns (AccommodationList);
   rpc addBenefit(AdditionalBenefitRequest) returns (AdditionalBenefitResponse);
   rpc createSpecialPeriod(SpecialInfoRequest) returns (SpecialInfoResponse);
-  rpc searchAccommodation(SearchRequest) returns (AccommodationList);
+  rpc searchAccommodation(SearchRequest) returns (SearchList);
 }

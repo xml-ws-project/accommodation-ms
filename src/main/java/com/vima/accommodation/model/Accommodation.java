@@ -87,4 +87,16 @@ public class Accommodation {
 
 	@Column
 	boolean automaticAcceptance;
+
+	@Override
+	public boolean equals(Object obj) {
+		try {
+			Accommodation accommodation  = (Accommodation) obj;
+			return id.equals(accommodation.id);
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+	}
 }
