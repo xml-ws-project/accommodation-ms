@@ -111,6 +111,10 @@ message SearchRequest {
   int32 pageNumber = 6;
 }
 
+message BenefitList {
+  repeated AdditionalBenefitResponse response = 1;
+}
+
 service AccommodationService {
   rpc create(AccommodationRequest) returns (AccommodationResponse);
   rpc update(UpdateAccommodationRequest) returns (Empty);
@@ -120,4 +124,5 @@ service AccommodationService {
   rpc addBenefit(AdditionalBenefitRequest) returns (AdditionalBenefitResponse);
   rpc createSpecialPeriod(SpecialInfoRequest) returns (SpecialInfoResponse);
   rpc searchAccommodation(SearchRequest) returns (SearchList);
+  rpc findAllBenefits(Empty) returns(BenefitList);
 }

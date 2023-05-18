@@ -1,7 +1,9 @@
 package com.vima.accommodation.grpc_service;
 
+import com.vima.accommodation.mapper.AdditionalBenefitMapper;
 import com.vima.accommodation.service.AdditionalBenefitService;
 import com.vima.accommodation.service.SpecialInfoService;
+import com.vima.gateway.BenefitList;
 import com.vima.gateway.SearchList;
 import com.vima.gateway.SearchRequest;
 import com.vima.accommodation.mapper.AccommodationMapper;
@@ -99,6 +101,16 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 	public void searchAccommodation(SearchRequest request, StreamObserver<SearchList> responseObserver) {
 		var searchResponse = accommodationService.searchAccommodations(request);
 		responseObserver.onNext(searchResponse);
+		responseObserver.onCompleted();
+	}
+
+	@Override
+	public void findAllBenefits(Empty empty, StreamObserver<BenefitList> responseObserver) {
+		var response = additionalBenefitService.findAll();
+		BenefitList benefitList = BenefitList.newBuilder()
+			.addAllResponse(AdditionalBenefitMapper.convertEntityToDtoList(response))
+			.build();
+		responseObserver.onNext(benefitList);
 		responseObserver.onCompleted();
 	}
 }

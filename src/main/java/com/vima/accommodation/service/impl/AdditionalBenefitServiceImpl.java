@@ -5,6 +5,7 @@ import com.vima.accommodation.repository.AdditionalBenefitRepository;
 import com.vima.accommodation.service.AdditionalBenefitService;
 import com.vima.gateway.AdditionalBenefitRequest;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -26,4 +27,10 @@ public class AdditionalBenefitServiceImpl implements AdditionalBenefitService {
 			.build();
 		return repository.save(benefit);
 	}
+
+	@Override
+	public List<AdditionalBenefit> findAll() {
+		return repository.findAll();
+	}
+
 }
