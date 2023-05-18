@@ -123,6 +123,11 @@ public class AccommodationServiceImpl implements AccommodationService {
 			.build();
 	}
 
+	@Override
+	public void deleteAllByHostId(final String hostId) {
+		accommodationRepository.deleteAllByHostId(hostId);
+	}
+
 	private List<Accommodation> callReservation(final SearchRequest request) {
 		SearchReservationRequest reservationRequest = SearchReservationRequest.newBuilder()
 			.setCountry(request.getCountry())

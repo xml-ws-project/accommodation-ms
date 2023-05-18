@@ -111,6 +111,14 @@ message SearchRequest {
   int32 pageNumber = 6;
 }
 
+message DeleteHostAccommodationsRequest{
+  uint64 id =1 ;
+}
+
+message DeleteHostAccommodationResponse{
+  string message = 1;
+}
+
 message BenefitList {
   repeated AdditionalBenefitResponse response = 1;
 }
@@ -124,5 +132,6 @@ service AccommodationService {
   rpc addBenefit(AdditionalBenefitRequest) returns (AdditionalBenefitResponse);
   rpc createSpecialPeriod(SpecialInfoRequest) returns (SpecialInfoResponse);
   rpc searchAccommodation(SearchRequest) returns (SearchList);
+  rpc deleteHostAccommodations(DeleteHostAccommodationsRequest) returns (DeleteHostAccommodationResponse);
   rpc findAllBenefits(Empty) returns(BenefitList);
 }

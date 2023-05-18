@@ -4,6 +4,8 @@ import com.vima.accommodation.mapper.AdditionalBenefitMapper;
 import com.vima.accommodation.service.AdditionalBenefitService;
 import com.vima.accommodation.service.SpecialInfoService;
 import com.vima.gateway.BenefitList;
+import com.vima.gateway.DeleteHostAccommodationResponse;
+import com.vima.gateway.DeleteHostAccommodationsRequest;
 import com.vima.gateway.SearchList;
 import com.vima.gateway.SearchRequest;
 import com.vima.accommodation.mapper.AccommodationMapper;
@@ -35,6 +37,7 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 	private final AccommodationService accommodationService;
 	private final SpecialInfoService specialInfoService;
 	private final AdditionalBenefitService additionalBenefitService;
+	private static final String DELETE_MESSAGE = "Accommodations are successfully deleted.";
 
 	@Override
 	public void findAll(Empty request, StreamObserver<AccommodationList> responseObserver) {
@@ -113,4 +116,15 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 		responseObserver.onNext(benefitList);
 		responseObserver.onCompleted();
 	}
+
+	@Override
+	public void deleteHostAccommodations(DeleteHostAccommodationsRequest request, StreamObserver<DeleteHostAccommodationResponse> responseObserver) {
+		accommodationService.deleteAllByHostId(Long.toString(request.getId()));
+		DeleteHostAccommodationResponse response = DeleteHostAccommodationResponse.newBuilder()
+			.setMessage(DELETE_MESSAGE)
+			.build();
+		responseObserver.onNext(response);
+		responseObserver.onCompleted();
+	}
+
 }

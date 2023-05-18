@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccommodationRepository extends JpaRepository<Accommodation, UUID> {
 	List<Accommodation> findAllByHostId(UUID hostId);
+	void deleteAllByHostId(String hostId);
 }
