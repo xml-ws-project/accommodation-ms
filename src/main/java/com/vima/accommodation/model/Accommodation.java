@@ -88,6 +88,9 @@ public class Accommodation {
 	@Column
 	boolean automaticAcceptance;
 
+	@Column(columnDefinition = "double default 0")
+	double avgRating = 0;
+
 	@Override
 	public boolean equals(Object obj) {
 		try {
