@@ -18,6 +18,11 @@ message RatingAccommodationResponse{
   google.protobuf.Timestamp date = 5;
 }
 
+message ID{
+  uint64 id = 1;
+}
+
 service RatingAccommodationService{
   rpc create(RatingAccommodationRequest) returns (RatingAccommodationResponse);
+  rpc delete(ID) returns (TextMessage);
 }

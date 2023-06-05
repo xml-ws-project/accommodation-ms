@@ -59,4 +59,24 @@ public class RatingAccommodationService {
         accommodation.setAvgRating(avg);
         accommodationRepository.save(accommodation);
     }
+
+    public boolean delete(Long id){
+        var rating = ratingAccommodationRepository.findById(id).get();
+        if(rating == null) return false;
+        ratingAccommodationRepository.delete(rating);
+        executeDelete(rating.getAccommodationId());
+        return true;
+    }
+
+    private void executeDelete(String accommodationId){
+        var numOfRates = ratingAccommodationRepository.findNumberOfAccommodationRatings(accommodationId);
+        var accommodation = accommodationService.findById(UUID.fromString(accommodationId));
+        if(numOfRates == 0){
+            accommodation.setAvgRating(0);
+            accommodationRepository.save(accommodation);
+        }
+        else {
+            calculateWhenNotZero(accommodation.getId().toString());
+        }
+    }
 }

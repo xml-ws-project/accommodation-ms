@@ -12,4 +12,7 @@ public interface RatingAccommodationRepository extends JpaRepository<RatingAccom
 
     @Query(value = "SELECT sum(a.value)/count(a.id) FROM rating a WHERE a.accommodation_id = ?1",nativeQuery = true)
     double findAvg(String accomodationId);
+
+    @Query(value = "SELECT count(a.id) FROM rating a WHERE a.accommodation_id = ?1", nativeQuery = true)
+    int findNumberOfAccommodationRatings(String accommodationId);
 }
