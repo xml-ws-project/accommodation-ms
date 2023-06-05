@@ -9,9 +9,7 @@ import java.util.UUID;
 
 @Repository
 public interface RatingAccommodationRepository extends JpaRepository<RatingAccommodation, Long> {
-    @Query(value = "SELECT count(a.id) FROM rating a WHERE a.accommodation_id = ?1", nativeQuery = true)
-    int findNumberOfAccommodationRatings(UUID accommodationId);
 
-    @Query(value = "SELECT sum(a.id) FROM rating a WHERE a.accommodation_id = ?1",nativeQuery = true)
-    int findSumOfAccommodationRatings(UUID accomodationId);
+    @Query(value = "SELECT sum(a.value)/count(a.id) FROM rating a WHERE a.accommodation_id = ?1",nativeQuery = true)
+    double findAvg(String accomodationId);
 }

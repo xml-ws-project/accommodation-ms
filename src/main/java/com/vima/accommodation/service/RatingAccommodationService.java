@@ -19,13 +19,13 @@ public class RatingAccommodationService {
     private final AccommodationService accommodationService;
     private final AccommodationRepository accommodationRepository;
 
-    public RatingAccommodation create(int value,UUID accommodationId,Long guestId){
+    public RatingAccommodation create(int value,String accommodationId,Long guestId){
         var rating = executeRating(value, accommodationId,guestId);
         calculateRating(value,accommodationId);
         return rating;
     }
 
-    private RatingAccommodation executeRating(int value, UUID accommodationId, Long guestId){
+    private RatingAccommodation executeRating(int value, String accommodationId, Long guestId){
         var rating = RatingAccommodation.builder()
                 .id(Math.abs(new Random().nextLong()))
                 .value(value)
@@ -38,13 +38,13 @@ public class RatingAccommodationService {
         return rating;
     }
 
-    private void calculateRating(int value, UUID accommodationId){
-        var accommodation = accommodationService.findById(accommodationId);
-        if(accommodation.getAvgRating()== 0){
+    private void calculateRating(int value, String accommodationId){
+        var accommodation = accommodationService.findById(UUID.fromString(accommodationId));
+        if(accommodation.getAvgRating() == 0){
             calculateWhenZero(accommodation,value);
             return;
         }
-        calculateWhenNotZero(accommodation.getId());
+        calculateWhenNotZero(accommodation.getId().toString());
 
     }
 
@@ -53,12 +53,10 @@ public class RatingAccommodationService {
         accommodationRepository.save(accommodation);
     }
 
-    private void calculateWhenNotZero(UUID accommodationId){
-        var accommodation = accommodationService.findById(accommodationId);
-        var number = ratingAccommodationRepository.findNumberOfAccommodationRatings(accommodation.getId());
-        var sum = ratingAccommodationRepository.findSumOfAccommodationRatings(accommodation.getId());
-        accommodation.setAvgRating((sum * 1.00)/number);
-
+    private void calculateWhenNotZero(String accommodationId){
+        var accommodation = accommodationService.findById(UUID.fromString(accommodationId));
+        var avg = ratingAccommodationRepository.findAvg(accommodationId);
+        accommodation.setAvgRating(avg);
         accommodationRepository.save(accommodation);
     }
 }

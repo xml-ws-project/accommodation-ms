@@ -19,7 +19,7 @@ public class RatingAccommodationGrpcService extends RatingAccommodationServiceGr
 
     @Override
     public void create(RatingAccommodationServiceOuterClass.RatingAccommodationRequest request, StreamObserver<RatingAccommodationServiceOuterClass.RatingAccommodationResponse> responseObserver){
-        var result = ratingAccommodationService.create(request.getValue(), UUID.fromString(request.getAccommodationId()),request.getGuestId());
+        var result = ratingAccommodationService.create(request.getValue(), request.getAccommodationId(),request.getGuestId());
         responseObserver.onNext(RatingAccommodationMapper.convertRatingAccommodationToRatingAccommodationResponse(result));
         responseObserver.onCompleted();
     }

@@ -27,7 +27,7 @@ public class RatingAccommodation {
     int value;
 
     @Column(nullable = false)
-    UUID accommodationId;
+    String accommodationId;
 
     @Column(nullable = false)
     Long guestId;

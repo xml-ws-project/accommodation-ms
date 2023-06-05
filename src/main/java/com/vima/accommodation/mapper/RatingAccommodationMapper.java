@@ -14,7 +14,7 @@ public class RatingAccommodationMapper {
         var response = RatingAccommodationServiceOuterClass.RatingAccommodationResponse.newBuilder()
                 .setId(rating.getId())
                 .setValue(rating.getValue())
-                .setAccommodationId(String.valueOf(rating.getAccommodationId()))
+                .setAccommodationId(rating.getAccommodationId().toString())
                 .setGuestId(rating.getGuestId())
                 .setDate(LocalDateConverter.convertLocalDateToGoogleTimestamp(rating.getDate()))
                 .build();
