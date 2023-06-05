@@ -30,6 +30,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -206,6 +207,14 @@ public class AccommodationServiceImpl implements AccommodationService {
 		long numberOfDays = Duration.between(period.getStart().atStartOfDay(), period.getEnd().atStartOfDay()).toDays();
 		searchPriceList.setUnitPrice(Math.round(searchPriceList.getTotalPrice() / numberOfDays * 100)/100.0);
 		return searchPriceList;
+	}
+
+	@Override
+	public List<Accommodation> findRecommended(List<String> ids) {
+		var accommodations = accommodationRepository.findAll();
+		return accommodations.stream()
+				.filter(accommodation -> ids.contains(accommodation.getId().toString()))
+				.collect(Collectors.toList());
 	}
 
 }

@@ -9,6 +9,7 @@ import com.vima.accommodation.mapper.AccommodationMapper;
 import com.vima.accommodation.mapper.SpecialInfoMapper;
 import com.vima.accommodation.service.AccommodationService;
 
+import java.util.List;
 import java.util.UUID;
 
 import io.grpc.ManagedChannel;
@@ -119,6 +120,20 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 			.build();
 		responseObserver.onNext(response);
 		responseObserver.onCompleted();
+	}
+
+	@Override
+	public void findRecommended(Uuid request, StreamObserver<AccommodationList> responseObserver){
+		var recommendedIds = getIds(request);
+		var recommended = accommodationService.findRecommended(recommendedIds);
+		responseObserver.onNext(AccommodationList.newBuilder().addAllResponse(AccommodationMapper.convertEntityToDtoList(recommended)).build());
+		responseObserver.onCompleted();
+	}
+
+	private List<String> getIds(Uuid userId){
+		var ids = getBlockingStub().getStub().recommend(userId);
+		getBlockingStub().getChannel().shutdown();
+		return ids.getIdsList();
 	}
 
 	private gRPCObjectRec getBlockingStub() {

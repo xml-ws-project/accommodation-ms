@@ -21,4 +21,5 @@ public interface AccommodationService {
 	List<Accommodation> findAll();
 	SearchList searchAccommodations(SearchRequest request);
 	void deleteAllByHostId(String hostId);
+	List<Accommodation> findRecommended(List<String> ids);
 }
