@@ -79,4 +79,18 @@ public class RatingAccommodationService {
             calculateWhenNotZero(accommodation.getId().toString());
         }
     }
+
+    public boolean edit (Long id, int newValue){
+        var rating = ratingAccommodationRepository.findById(id).get();
+        if(rating == null) return false;
+
+        return executeEdit(rating, newValue);
+    }
+
+    public boolean executeEdit(RatingAccommodation rating, int newValue){
+        rating.setValue(newValue);
+        ratingAccommodationRepository.save(rating);
+        calculateWhenNotZero(rating.getAccommodationId());
+        return true;
+    }
 }

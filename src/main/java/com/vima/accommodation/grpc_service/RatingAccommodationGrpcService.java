@@ -31,5 +31,12 @@ public class RatingAccommodationGrpcService extends RatingAccommodationServiceGr
         responseObserver.onNext(TextMessage.newBuilder().setValue(result ? "Rating deleted." : "Error!").build());
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void edit(RatingAccommodationServiceOuterClass.EditRatingAccommodationRequest request, StreamObserver<TextMessage> responseObserver){
+        var result = ratingAccommodationService.edit(request.getId(), request.getNewValue());
+        responseObserver.onNext(TextMessage.newBuilder().setValue(result ? "Rating edited" : "Error!").build());
+        responseObserver.onCompleted();
+    }
 }
 

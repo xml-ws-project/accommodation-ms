@@ -22,7 +22,13 @@ message ID{
   uint64 id = 1;
 }
 
+message EditRatingAccommodationRequest{
+  uint64 id = 1;
+  int32  newValue = 2;
+}
+
 service RatingAccommodationService{
   rpc create(RatingAccommodationRequest) returns (RatingAccommodationResponse);
   rpc delete(ID) returns (TextMessage);
+  rpc edit(EditRatingAccommodationRequest) returns (TextMessage);
 }
