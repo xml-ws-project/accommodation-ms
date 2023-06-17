@@ -38,6 +38,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import io.grpc.ManagedChannel;
@@ -53,6 +54,8 @@ public class AccommodationServiceImpl implements AccommodationService {
 	private final AdditionalBenefitRepository benefitRepository;
 	private final AddressRepository addressRepository;
 	private final EntityManager em;
+	@Value("${channel.address.reservation-ms}")
+	private String channelReservationAddress;
 	private static final String ADDRESS = "address";
 	private static final String CITY = "city";
 	private static final String COUNTRY = "country";
@@ -141,7 +144,7 @@ public class AccommodationServiceImpl implements AccommodationService {
 	}
 
 	private gRPCObject initGRPC() {
-		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9094)
+		ManagedChannel channel = ManagedChannelBuilder.forAddress(channelReservationAddress, 9094)
 			.usePlaintext()
 			.build();
 		return gRPCObject.builder()
@@ -183,7 +186,6 @@ public class AccommodationServiceImpl implements AccommodationService {
 		return query.getResultList();
 	}
 
-	//testirati
 	private SearchPriceList calculatePriceList(Accommodation accommodation, DateRange period) {
 		List<SpecialInfo> specials = specialInfoRepository.findAllByAccommodationId(accommodation.getId());
 		SearchPriceList searchPriceList = new SearchPriceList(0, 0);
