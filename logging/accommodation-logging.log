@@ -661,4 +661,3 @@ Caused by: java.net.ConnectException: Connection refused: no further information
 	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:153) ~[mysql-connector-java-8.0.30.jar:8.0.30]
 	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:63) ~[mysql-connector-java-8.0.30.jar:8.0.30]
 	... 52 common frames omitted
-

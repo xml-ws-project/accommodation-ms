@@ -4,10 +4,12 @@ import com.vima.accommodation.converter.StringToUUIDListConverter;
 import com.vima.accommodation.dto.FilterAccommodationRequest;
 import com.vima.gateway.*;
 import com.vima.accommodation.dto.SearchPriceList;
+import com.vima.gateway.SearchList;
+import com.vima.gateway.SearchRequest;
 import com.vima.accommodation.converter.LocalDateConverter;
 import com.vima.accommodation.exception.NotFoundException;
 import com.vima.accommodation.mapper.AccommodationMapper;
-import com.vima.accommodation.dto.gRPCObject;
+import com.vima.accommodation.dto.gRPCReservationObject;
 import com.vima.accommodation.model.Accommodation;
 import com.vima.accommodation.model.AdditionalBenefit;
 import com.vima.accommodation.model.SpecialInfo;
@@ -140,11 +142,11 @@ public class AccommodationServiceImpl implements AccommodationService {
 		return accommodationRepository.findAllById(accommodationIds);
 	}
 
-	private gRPCObject initGRPC() {
+	private gRPCReservationObject initGRPC() {
 		ManagedChannel channel = ManagedChannelBuilder.forAddress(channelReservationAddress, 9094)
 			.usePlaintext()
 			.build();
-		return gRPCObject.builder()
+		return gRPCReservationObject.builder()
 			.channel(channel)
 			.stub(ReservationServiceGrpc.newBlockingStub(channel))
 			.build();
