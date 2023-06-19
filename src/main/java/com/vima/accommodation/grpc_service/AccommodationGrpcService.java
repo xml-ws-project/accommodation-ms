@@ -146,4 +146,11 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 				.build();
 	}
 
+	public void filterAccommodations(AccommodationFilterRequest request, StreamObserver<SearchList> responseObserver){
+
+		var searchResponse = accommodationService.filterAccommodation(request);
+		responseObserver.onNext(searchResponse);
+		responseObserver.onCompleted();
+	}
+
 }

@@ -1,12 +1,9 @@
 package com.vima.accommodation.service.impl;
 
 import com.vima.accommodation.converter.StringToUUIDListConverter;
-import com.vima.gateway.ReservationServiceGrpc;
-import com.vima.gateway.SearchReservationRequest;
+import com.vima.accommodation.dto.FilterAccommodationRequest;
+import com.vima.gateway.*;
 import com.vima.accommodation.dto.SearchPriceList;
-import com.vima.gateway.AccommodationServiceGrpc;
-import com.vima.gateway.SearchList;
-import com.vima.gateway.SearchRequest;
 import com.vima.accommodation.converter.LocalDateConverter;
 import com.vima.accommodation.exception.NotFoundException;
 import com.vima.accommodation.mapper.AccommodationMapper;
@@ -20,10 +17,6 @@ import com.vima.accommodation.repository.AdditionalBenefitRepository;
 import com.vima.accommodation.repository.AddressRepository;
 import com.vima.accommodation.repository.SpecialInfoRepository;
 import com.vima.accommodation.service.AccommodationService;
-import com.vima.gateway.AccommodationRequest;
-import com.vima.gateway.SearchReservationResponse;
-import com.vima.gateway.SearchResponse;
-import com.vima.gateway.UpdateAccommodationRequest;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -39,6 +32,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import io.grpc.ManagedChannel;
@@ -54,6 +48,8 @@ public class AccommodationServiceImpl implements AccommodationService {
 	private final AdditionalBenefitRepository benefitRepository;
 	private final AddressRepository addressRepository;
 	private final EntityManager em;
+	@Value("${channel.address.reservation-ms}")
+	private String channelReservationAddress;
 	private static final String ADDRESS = "address";
 	private static final String CITY = "city";
 	private static final String COUNTRY = "country";
@@ -129,6 +125,9 @@ public class AccommodationServiceImpl implements AccommodationService {
 		accommodationRepository.deleteAllByHostId(hostId);
 	}
 
+
+
+
 	private List<Accommodation> callReservation(final SearchRequest request) {
 		SearchReservationRequest reservationRequest = SearchReservationRequest.newBuilder()
 			.setCountry(request.getCountry())
@@ -142,7 +141,7 @@ public class AccommodationServiceImpl implements AccommodationService {
 	}
 
 	private gRPCObject initGRPC() {
-		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9094)
+		ManagedChannel channel = ManagedChannelBuilder.forAddress(channelReservationAddress, 9094)
 			.usePlaintext()
 			.build();
 		return gRPCObject.builder()
@@ -184,7 +183,6 @@ public class AccommodationServiceImpl implements AccommodationService {
 		return query.getResultList();
 	}
 
-	//testirati
 	private SearchPriceList calculatePriceList(Accommodation accommodation, DateRange period) {
 		List<SpecialInfo> specials = specialInfoRepository.findAllByAccommodationId(accommodation.getId());
 		SearchPriceList searchPriceList = new SearchPriceList(0, 0);
@@ -217,4 +215,80 @@ public class AccommodationServiceImpl implements AccommodationService {
 				.collect(Collectors.toList());
 	}
 
+	public SearchList filterAccommodation(AccommodationFilterRequest request){
+
+		List<Accommodation> viableAccommodations = getViableAccommodations(request);
+		List<Accommodation> accommodations = FilterForBenefits(viableAccommodations,request.getBenefitsList());
+		List<Accommodation> uniqueAccommodations = filterUnique(accommodations);
+		List<SearchResponse> searchResponseList = new ArrayList<>();
+		for (Accommodation accommodation: uniqueAccommodations) {
+			searchResponseList.add(AccommodationMapper.convertToFilterResponse(accommodation));
+		}
+		return SearchList.newBuilder()
+				.addAllResponse(searchResponseList)
+				.build();
+	}
+
+	private  List<Accommodation> FilterForBenefits(List<Accommodation> accommodations, List<String> benefits){
+		List<Accommodation> filteredAccommodations = new ArrayList<>();
+		for(Accommodation a: accommodations){
+			if(CheckIfAllBenefitsExist(a,benefits)) {
+				filteredAccommodations.add(a);
+			}
+		}
+		return filteredAccommodations;
+	}
+
+	private boolean CheckIfAllBenefitsExist(Accommodation accommodation, List<String> benefits){
+		for(String s:benefits){
+			if(!DoesBenefitExist(accommodation.getBenefits(),s)){
+				return false;
+			}
+		}
+		return true;
+	}
+	private boolean DoesBenefitExist(List<AdditionalBenefit> addBenefits, String benefit){
+		for(AdditionalBenefit ab: addBenefits){
+			if(ab.getName().equalsIgnoreCase(benefit)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private List<Accommodation> getViableAccommodations(AccommodationFilterRequest request){
+		if(request.getHostId().equals("") && !request.getBenefitsList().isEmpty()){
+			return accommodationRepository.findAllByRegularPriceGreaterThanAndRegularPriceLessThanAndBenefitsNameIn(
+					request.getMinPrice(), request.getMaxPrice() ,request.getBenefitsList());
+
+		}
+		if(!request.getHostId().equals("") && !request.getBenefitsList().isEmpty()) {
+			return accommodationRepository.findAllByRegularPriceGreaterThanAndRegularPriceLessThanAndBenefitsNameInAndHostId(
+					request.getMinPrice(), request.getMaxPrice(), request.getBenefitsList(), request.getHostId());
+		}
+		if(request.getHostId().equals("") && request.getBenefitsList().isEmpty()){
+			return accommodationRepository.findAllByRegularPriceGreaterThanAndRegularPriceLessThan(request.getMinPrice(), request.getMaxPrice());
+		}
+		else return accommodationRepository.findAllByRegularPriceGreaterThanAndRegularPriceLessThanAndHostId(
+				request.getMinPrice(), request.getMaxPrice(), request.getHostId());
+	}
+
+	private List<Accommodation> filterUnique(List<Accommodation> accommodations){
+		List<Accommodation> uniqueAccommodations = new ArrayList<>();
+		for(Accommodation a:accommodations){
+				if(isAccommodationUnique(a,uniqueAccommodations)){
+					uniqueAccommodations.add(a);
+				}
+		}
+		return uniqueAccommodations;
+	}
+
+	private boolean isAccommodationUnique(Accommodation a, List<Accommodation> accommodations){
+		for(Accommodation acc: accommodations){
+			if(acc.getId() == a.getId()){
+				return false;
+			}
+		}
+		return true;
+	}
 }

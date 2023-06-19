@@ -13,4 +13,12 @@ public class LocalDateConverter {
 			.atZone(ZoneOffset.UTC)
 			.toLocalDate();
 	}
+
+	public static Timestamp convertLocalDateToGoogleTimestamp(LocalDate localDate) {
+		Instant instant = localDate.atStartOfDay().toInstant(ZoneOffset.UTC);
+		return Timestamp.newBuilder()
+				.setSeconds(instant.getEpochSecond())
+				.setNanos(instant.getNano())
+				.build();
+	}
 }

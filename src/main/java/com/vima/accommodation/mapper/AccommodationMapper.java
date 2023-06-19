@@ -98,5 +98,13 @@ public class AccommodationMapper {
 			.build();
 	}
 
+	public static SearchResponse convertToFilterResponse(Accommodation accommodation){
+		return SearchResponse.newBuilder()
+				.setAccommodation(convertEntityToDto(accommodation))
+				.setUnitPrice(1.0)
+				.setTotalPrice(2.0)
+				.build();
+	}
+
 
 }
