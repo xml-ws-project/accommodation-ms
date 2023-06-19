@@ -3,25 +3,10 @@ package com.vima.accommodation.grpc_service;
 import com.vima.accommodation.mapper.AdditionalBenefitMapper;
 import com.vima.accommodation.service.AdditionalBenefitService;
 import com.vima.accommodation.service.SpecialInfoService;
-import com.vima.gateway.BenefitList;
-import com.vima.gateway.DeleteHostAccommodationResponse;
-import com.vima.gateway.DeleteHostAccommodationsRequest;
-import com.vima.gateway.SearchList;
-import com.vima.gateway.SearchRequest;
+import com.vima.gateway.*;
 import com.vima.accommodation.mapper.AccommodationMapper;
 import com.vima.accommodation.mapper.SpecialInfoMapper;
 import com.vima.accommodation.service.AccommodationService;
-import com.vima.gateway.AccommodationList;
-import com.vima.gateway.AccommodationRequest;
-import com.vima.gateway.AccommodationResponse;
-import com.vima.gateway.AccommodationServiceGrpc;
-import com.vima.gateway.AdditionalBenefitRequest;
-import com.vima.gateway.AdditionalBenefitResponse;
-import com.vima.gateway.Empty;
-import com.vima.gateway.SpecialInfoRequest;
-import com.vima.gateway.SpecialInfoResponse;
-import com.vima.gateway.UpdateAccommodationRequest;
-import com.vima.gateway.Uuid;
 
 import java.util.UUID;
 
@@ -126,5 +111,14 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 		responseObserver.onNext(response);
 		responseObserver.onCompleted();
 	}
+
+	@Override
+	public void filterAccommodations(AccommodationFilterRequest request, StreamObserver<SearchList> responseObserver){
+
+		var searchResponse = accommodationService.filterAccommodation(request);
+		responseObserver.onNext(searchResponse);
+		responseObserver.onCompleted();
+	}
+
 
 }

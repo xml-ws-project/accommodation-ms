@@ -122,6 +122,13 @@ message DeleteHostAccommodationResponse{
 message BenefitList {
   repeated AdditionalBenefitResponse response = 1;
 }
+//Dodao Xon
+message AccommodationFilterRequest{
+  uint64 minPrice = 1;
+  uint64 maxPrice = 2;
+  repeated string benefits = 3;
+  string hostId = 4;
+}
 
 service AccommodationService {
   rpc create(AccommodationRequest) returns (AccommodationResponse);
@@ -134,4 +141,5 @@ service AccommodationService {
   rpc searchAccommodation(SearchRequest) returns (SearchList);
   rpc deleteHostAccommodations(DeleteHostAccommodationsRequest) returns (DeleteHostAccommodationResponse);
   rpc findAllBenefits(Empty) returns(BenefitList);
+  rpc filterAccommodations(AccommodationFilterRequest) returns(SearchList);
 }
