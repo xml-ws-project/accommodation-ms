@@ -1,101 +1,117 @@
-2023-06-17 01:57:15.727  INFO [accommodation-ms,,] 21572 --- [main] c.v.a.AccommodationApplication           : Starting AccommodationApplication using Java 18.0.2 on Vuk with PID 21572 (C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms\target\classes started by Vuk in C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms)
-2023-06-17 01:57:15.735  INFO [accommodation-ms,,] 21572 --- [main] c.v.a.AccommodationApplication           : No active profile set, falling back to 1 default profile: "default"
-2023-06-17 01:57:16.777  INFO [accommodation-ms,,] 21572 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-06-17 01:57:16.851  INFO [accommodation-ms,,] 21572 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 66 ms. Found 4 JPA repository interfaces.
-2023-06-17 01:57:17.129  INFO [accommodation-ms,,] 21572 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=4717525d-e006-361d-856d-b1170577a048
-2023-06-17 01:57:17.809  INFO [accommodation-ms,,] 21572 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
-2023-06-17 01:57:17.816  INFO [accommodation-ms,,] 21572 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-06-17 01:57:17.816  INFO [accommodation-ms,,] 21572 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.60]
-2023-06-17 01:57:17.968  INFO [accommodation-ms,,] 21572 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-06-17 01:57:17.968  INFO [accommodation-ms,,] 21572 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2171 ms
-2023-06-17 01:57:18.965  INFO [accommodation-ms,,] 21572 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-06-17 01:57:19.026  INFO [accommodation-ms,,] 21572 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.7.Final
-2023-06-17 01:57:19.188  INFO [accommodation-ms,,] 21572 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-06-17 01:57:19.303  INFO [accommodation-ms,,] 21572 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-06-17 01:57:19.600  INFO [accommodation-ms,,] 21572 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-06-17 01:57:19.612  INFO [accommodation-ms,,] 21572 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
-2023-06-17 01:57:21.054  INFO [accommodation-ms,,] 21572 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-06-17 01:57:21.060  INFO [accommodation-ms,,] 21572 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-06-17 01:57:22.943  INFO [accommodation-ms,,] 21572 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2023-06-17 01:57:23.005  INFO [accommodation-ms,,] 21572 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8083 (http) with context path ''
-2023-06-17 01:57:23.183  INFO [accommodation-ms,,] 21572 --- [main] n.d.b.g.s.s.AbstractGrpcServerFactory    : Registered gRPC service: com.vima.gateway.AccommodationService, bean: accommodationGrpcService, class: com.vima.accommodation.grpc_service.AccommodationGrpcService
-2023-06-17 01:57:23.355  INFO [accommodation-ms,,] 21572 --- [main] n.d.b.g.s.s.GrpcServerLifecycle          : gRPC Server started, listening on address: *, port: 9093
-2023-06-17 01:57:23.372  INFO [accommodation-ms,,] 21572 --- [main] c.v.a.AccommodationApplication           : Started AccommodationApplication in 8.301 seconds (JVM running for 8.798)
-2023-06-17 02:01:56.446  INFO [accommodation-ms,,] 21572 --- [Thread-2] o.s.c.s.a.z.ZipkinAutoConfiguration      : Flushing remaining spans on shutdown
-2023-06-17 02:01:56.450  INFO [accommodation-ms,,] 21572 --- [SpringApplicationShutdownHook] n.d.b.g.s.s.GrpcServerLifecycle          : gRPC server shutdown.
-2023-06-17 02:01:56.473  INFO [accommodation-ms,,] 21572 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-06-17 02:01:56.474  INFO [accommodation-ms,,] 21572 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2023-06-17 02:01:56.487  INFO [accommodation-ms,,] 21572 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2023-06-17 22:16:00.806  INFO [accommodation-ms,,] 5532 --- [main] c.v.a.AccommodationApplication           : Starting AccommodationApplication using Java 18.0.2 on Vuk with PID 5532 (C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms\target\classes started by Vuk in C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms)
-2023-06-17 22:16:00.811  INFO [accommodation-ms,,] 5532 --- [main] c.v.a.AccommodationApplication           : No active profile set, falling back to 1 default profile: "default"
-2023-06-17 22:16:01.858  INFO [accommodation-ms,,] 5532 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-06-17 22:16:01.920  INFO [accommodation-ms,,] 5532 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 57 ms. Found 4 JPA repository interfaces.
-2023-06-17 22:16:02.213  INFO [accommodation-ms,,] 5532 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=4717525d-e006-361d-856d-b1170577a048
-2023-06-17 22:16:02.874  INFO [accommodation-ms,,] 5532 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
-2023-06-17 22:16:02.881  INFO [accommodation-ms,,] 5532 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-06-17 22:16:02.883  INFO [accommodation-ms,,] 5532 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.60]
-2023-06-17 22:16:03.018  INFO [accommodation-ms,,] 5532 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-06-17 22:16:03.018  INFO [accommodation-ms,,] 5532 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2147 ms
-2023-06-17 22:16:04.429  INFO [accommodation-ms,,] 5532 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-06-17 22:16:04.490  INFO [accommodation-ms,,] 5532 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.7.Final
-2023-06-17 22:16:04.651  INFO [accommodation-ms,,] 5532 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-06-17 22:16:04.750  INFO [accommodation-ms,,] 5532 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-06-17 22:16:04.966  INFO [accommodation-ms,,] 5532 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-06-17 22:16:04.977  INFO [accommodation-ms,,] 5532 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
-2023-06-17 22:16:05.910  INFO [accommodation-ms,,] 5532 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-06-17 22:16:05.916  INFO [accommodation-ms,,] 5532 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-06-17 22:16:07.986  INFO [accommodation-ms,,] 5532 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2023-06-17 22:16:08.039  INFO [accommodation-ms,,] 5532 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8083 (http) with context path ''
-2023-06-17 22:16:08.219  INFO [accommodation-ms,,] 5532 --- [main] n.d.b.g.s.s.AbstractGrpcServerFactory    : Registered gRPC service: com.vima.gateway.AccommodationService, bean: accommodationGrpcService, class: com.vima.accommodation.grpc_service.AccommodationGrpcService
-2023-06-17 22:16:08.343  INFO [accommodation-ms,,] 5532 --- [main] n.d.b.g.s.s.GrpcServerLifecycle          : gRPC Server started, listening on address: *, port: 9093
-2023-06-17 22:16:08.359  INFO [accommodation-ms,,] 5532 --- [main] c.v.a.AccommodationApplication           : Started AccommodationApplication in 8.13 seconds (JVM running for 8.571)
-2023-06-17 22:19:36.288  WARN [accommodation-ms,,] 5532 --- [grpc-default-executor-0] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7fe739ed (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2023-06-17 22:19:36.291  WARN [accommodation-ms,,] 5532 --- [grpc-default-executor-0] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@13177c0c (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2023-06-17 22:19:36.293  WARN [accommodation-ms,,] 5532 --- [grpc-default-executor-0] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@557907d2 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2023-06-17 22:19:36.294  WARN [accommodation-ms,,] 5532 --- [grpc-default-executor-0] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5ec89029 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2023-06-17 22:19:36.295  WARN [accommodation-ms,,] 5532 --- [grpc-default-executor-0] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@4af80a27 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2023-06-17 22:19:36.296  WARN [accommodation-ms,,] 5532 --- [grpc-default-executor-0] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@62a7f868 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2023-06-17 22:19:36.297  WARN [accommodation-ms,,] 5532 --- [grpc-default-executor-0] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7f7d2479 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2023-06-17 22:19:36.298  WARN [accommodation-ms,,] 5532 --- [grpc-default-executor-0] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@65aeaa67 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2023-06-17 22:19:36.299  WARN [accommodation-ms,,] 5532 --- [grpc-default-executor-0] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@6f0d3dc7 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2023-06-17 22:19:36.300  WARN [accommodation-ms,,] 5532 --- [grpc-default-executor-0] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@3234ecf6 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2023-06-17 22:19:37.433  WARN [accommodation-ms,,] 5532 --- [AsyncReporter{RestTemplateSender{http://localhost:9411/api/v2/spans}}] z.r.AsyncReporter$BoundedAsyncReporter   : Spans were dropped due to exceptions. All subsequent errors will be logged at FINE level.
-2023-06-17 22:19:37.435  WARN [accommodation-ms,,] 5532 --- [AsyncReporter{RestTemplateSender{http://localhost:9411/api/v2/spans}}] z.r.AsyncReporter$BoundedAsyncReporter   : Dropped 1 spans due to ResourceAccessException(I/O error on POST request for "http://localhost:9411/api/v2/spans": Connection refused: no further information; nested exception is java.net.ConnectException: Connection refused: no further information)
+2023-06-19 02:14:03.211  INFO [accommodation-ms,,] 2948 --- [main] c.v.a.AccommodationApplication           : Starting AccommodationApplication using Java 18.0.2 on Vuk with PID 2948 (C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms\target\classes started by Vuk in C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms)
+2023-06-19 02:14:03.217  INFO [accommodation-ms,,] 2948 --- [main] c.v.a.AccommodationApplication           : No active profile set, falling back to 1 default profile: "default"
+2023-06-19 02:14:04.910  INFO [accommodation-ms,,] 2948 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-06-19 02:14:05.043  INFO [accommodation-ms,,] 2948 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 100 ms. Found 5 JPA repository interfaces.
+2023-06-19 02:14:05.494  INFO [accommodation-ms,,] 2948 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=3d777a19-9422-36c7-985b-5d2332683d54
+2023-06-19 02:14:06.545  INFO [accommodation-ms,,] 2948 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
+2023-06-19 02:14:06.571  INFO [accommodation-ms,,] 2948 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-06-19 02:14:06.573  INFO [accommodation-ms,,] 2948 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.60]
+2023-06-19 02:14:06.917  INFO [accommodation-ms,,] 2948 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-06-19 02:14:06.920  INFO [accommodation-ms,,] 2948 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3618 ms
+2023-06-19 02:14:07.946  WARN [accommodation-ms,,] 2948 --- [main] o.s.c.s.a.z.ZipkinAutoConfiguration      : Check result of the [RestTemplateSender{http://localhost:9411/api/v2/spans}] contains an error [CheckResult{ok=false, error=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:9411/api/v2/spans": Connection refused: no further information; nested exception is java.net.ConnectException: Connection refused: no further information}]
+2023-06-19 02:14:08.453  INFO [accommodation-ms,,] 2948 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-06-19 02:14:08.512  INFO [accommodation-ms,,] 2948 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.7.Final
+2023-06-19 02:14:08.761  INFO [accommodation-ms,,] 2948 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-06-19 02:14:09.007  INFO [accommodation-ms,,] 2948 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-06-19 02:14:09.412  INFO [accommodation-ms,,] 2948 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-06-19 02:14:09.427  INFO [accommodation-ms,,] 2948 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2023-06-19 02:14:10.652  INFO [accommodation-ms,,] 2948 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-06-19 02:14:10.658  INFO [accommodation-ms,,] 2948 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-06-19 02:14:11.212  WARN [accommodation-ms,,] 2948 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'ratingAccommodationGrpcService' defined in file [C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms\target\classes\com\vima\accommodation\grpc_service\RatingAccommodationGrpcService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'ratingAccommodationService' defined in file [C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms\target\classes\com\vima\accommodation\service\RatingAccommodationService.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'emailServiceImpl': Unsatisfied dependency expressed through field 'mailSender'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.mail.javamail.JavaMailSender' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2023-06-19 02:14:11.213  INFO [accommodation-ms,,] 2948 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-06-19 02:14:11.214  INFO [accommodation-ms,,] 2948 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-06-19 02:14:11.228  INFO [accommodation-ms,,] 2948 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-06-19 02:14:12.235  WARN [accommodation-ms,,] 2948 --- [main] z.r.AsyncReporter$BoundedAsyncReporter   : Timed out waiting for in-flight spans to send
+2023-06-19 02:14:12.238  INFO [accommodation-ms,,] 2948 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-06-19 02:14:12.254  INFO [accommodation-ms,,] 2948 --- [main] ConditionEvaluationReportLoggingListener : 
 
-org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:9411/api/v2/spans": Connection refused: no further information; nested exception is java.net.ConnectException: Connection refused: no further information
-	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:785) ~[spring-web-5.3.18.jar:5.3.18]
-	at org.springframework.cloud.sleuth.zipkin2.ZipkinRestTemplateWrapper.doExecute(ZipkinRestTemplateWrapper.java:69) ~[spring-cloud-sleuth-zipkin-3.1.0.jar:3.1.0]
-	at org.springframework.web.client.RestTemplate.exchange(RestTemplate.java:660) ~[spring-web-5.3.18.jar:5.3.18]
-	at org.springframework.cloud.sleuth.zipkin2.RestTemplateSender.post(RestTemplateSender.java:151) ~[spring-cloud-sleuth-zipkin-3.1.0.jar:3.1.0]
-	at org.springframework.cloud.sleuth.zipkin2.RestTemplateSender$HttpPostCall.doExecute(RestTemplateSender.java:169) ~[spring-cloud-sleuth-zipkin-3.1.0.jar:3.1.0]
-	at org.springframework.cloud.sleuth.zipkin2.RestTemplateSender$HttpPostCall.doExecute(RestTemplateSender.java:159) ~[spring-cloud-sleuth-zipkin-3.1.0.jar:3.1.0]
-	at zipkin2.Call$Base.execute(Call.java:391) ~[zipkin-2.23.2.jar:na]
-	at zipkin2.reporter.AsyncReporter$BoundedAsyncReporter.flush(AsyncReporter.java:299) ~[zipkin-reporter-2.16.3.jar:na]
-	at zipkin2.reporter.AsyncReporter$Flusher.run(AsyncReporter.java:378) ~[zipkin-reporter-2.16.3.jar:na]
-	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
-Caused by: java.net.ConnectException: Connection refused: no further information
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672) ~[na:na]
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:539) ~[na:na]
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594) ~[na:na]
-	at java.base/java.net.Socket.connect(Socket.java:633) ~[na:na]
-	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:178) ~[na:na]
-	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:498) ~[na:na]
-	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:603) ~[na:na]
-	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:246) ~[na:na]
-	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:351) ~[na:na]
-	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:373) ~[na:na]
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1309) ~[na:na]
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1242) ~[na:na]
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1128) ~[na:na]
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1057) ~[na:na]
-	at org.springframework.http.client.SimpleBufferingClientHttpRequest.executeInternal(SimpleBufferingClientHttpRequest.java:76) ~[spring-web-5.3.18.jar:5.3.18]
-	at org.springframework.http.client.AbstractBufferingClientHttpRequest.executeInternal(AbstractBufferingClientHttpRequest.java:48) ~[spring-web-5.3.18.jar:5.3.18]
-	at org.springframework.http.client.AbstractClientHttpRequest.execute(AbstractClientHttpRequest.java:66) ~[spring-web-5.3.18.jar:5.3.18]
-	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:776) ~[spring-web-5.3.18.jar:5.3.18]
-	... 9 common frames omitted
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2023-06-19 02:14:12.275 ERROR [accommodation-ms,,] 2948 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
 
-2023-06-17 22:20:39.516  INFO [accommodation-ms,,] 5532 --- [Thread-2] o.s.c.s.a.z.ZipkinAutoConfiguration      : Flushing remaining spans on shutdown
-2023-06-17 22:20:39.521  INFO [accommodation-ms,,] 5532 --- [SpringApplicationShutdownHook] n.d.b.g.s.s.GrpcServerLifecycle          : gRPC server shutdown.
-2023-06-17 22:20:39.587  INFO [accommodation-ms,,] 5532 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-06-17 22:20:39.592  INFO [accommodation-ms,,] 5532 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field mailSender in com.vima.accommodation.util.email.impl.EmailServiceImpl required a bean of type 'org.springframework.mail.javamail.JavaMailSender' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.mail.javamail.JavaMailSender' in your configuration.
+
+2023-06-19 02:14:12.276  INFO [accommodation-ms,,] 2948 --- [Thread-2] o.s.c.s.a.z.ZipkinAutoConfiguration      : Flushing remaining spans on shutdown
+2023-06-19 02:15:13.548  INFO [accommodation-ms,,] 18380 --- [main] c.v.a.AccommodationApplication           : Starting AccommodationApplication using Java 18.0.2 on Vuk with PID 18380 (C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms\target\classes started by Vuk in C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms)
+2023-06-19 02:15:13.550  INFO [accommodation-ms,,] 18380 --- [main] c.v.a.AccommodationApplication           : No active profile set, falling back to 1 default profile: "default"
+2023-06-19 02:15:14.442  INFO [accommodation-ms,,] 18380 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-06-19 02:15:14.532  INFO [accommodation-ms,,] 18380 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 74 ms. Found 5 JPA repository interfaces.
+2023-06-19 02:15:14.872  INFO [accommodation-ms,,] 18380 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=3d777a19-9422-36c7-985b-5d2332683d54
+2023-06-19 02:15:15.531  INFO [accommodation-ms,,] 18380 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
+2023-06-19 02:15:15.537  INFO [accommodation-ms,,] 18380 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-06-19 02:15:15.538  INFO [accommodation-ms,,] 18380 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.60]
+2023-06-19 02:15:15.675  INFO [accommodation-ms,,] 18380 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-06-19 02:15:15.675  INFO [accommodation-ms,,] 18380 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2081 ms
+2023-06-19 02:15:16.140  WARN [accommodation-ms,,] 18380 --- [main] o.s.c.s.a.z.ZipkinAutoConfiguration      : Check result of the [RestTemplateSender{http://localhost:9411/api/v2/spans}] contains an error [CheckResult{ok=false, error=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:9411/api/v2/spans": Connection refused: no further information; nested exception is java.net.ConnectException: Connection refused: no further information}]
+2023-06-19 02:15:16.402  INFO [accommodation-ms,,] 18380 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-06-19 02:15:16.445  INFO [accommodation-ms,,] 18380 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.7.Final
+2023-06-19 02:15:16.565  INFO [accommodation-ms,,] 18380 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-06-19 02:15:16.648  INFO [accommodation-ms,,] 18380 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-06-19 02:15:16.898  INFO [accommodation-ms,,] 18380 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-06-19 02:15:16.909  INFO [accommodation-ms,,] 18380 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2023-06-19 02:15:17.835  INFO [accommodation-ms,,] 18380 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-06-19 02:15:17.841  INFO [accommodation-ms,,] 18380 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-06-19 02:15:18.348  WARN [accommodation-ms,,] 18380 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'ratingAccommodationGrpcService' defined in file [C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms\target\classes\com\vima\accommodation\grpc_service\RatingAccommodationGrpcService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'ratingAccommodationService' defined in file [C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms\target\classes\com\vima\accommodation\service\RatingAccommodationService.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'emailServiceImpl': Unsatisfied dependency expressed through field 'mailSender'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.mail.javamail.JavaMailSender' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2023-06-19 02:15:18.350  INFO [accommodation-ms,,] 18380 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-06-19 02:15:18.351  INFO [accommodation-ms,,] 18380 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-06-19 02:15:18.363  INFO [accommodation-ms,,] 18380 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-06-19 02:15:19.366  WARN [accommodation-ms,,] 18380 --- [main] z.r.AsyncReporter$BoundedAsyncReporter   : Timed out waiting for in-flight spans to send
+2023-06-19 02:15:19.369  INFO [accommodation-ms,,] 18380 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-06-19 02:15:19.384  INFO [accommodation-ms,,] 18380 --- [main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2023-06-19 02:15:19.401 ERROR [accommodation-ms,,] 18380 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field mailSender in com.vima.accommodation.util.email.impl.EmailServiceImpl required a bean of type 'org.springframework.mail.javamail.JavaMailSender' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.mail.javamail.JavaMailSender' in your configuration.
+
+2023-06-19 02:16:13.310  INFO [accommodation-ms,,] 23544 --- [main] c.v.a.AccommodationApplication           : Starting AccommodationApplication using Java 18.0.2 on Vuk with PID 23544 (C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms\target\classes started by Vuk in C:\Users\One\Desktop\F\4.godina\2. semestar\XML i web servisi\Projekat\accommodation-ms)
+2023-06-19 02:16:13.311  INFO [accommodation-ms,,] 23544 --- [main] c.v.a.AccommodationApplication           : No active profile set, falling back to 1 default profile: "default"
+2023-06-19 02:16:14.149  INFO [accommodation-ms,,] 23544 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-06-19 02:16:14.211  INFO [accommodation-ms,,] 23544 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 55 ms. Found 5 JPA repository interfaces.
+2023-06-19 02:16:14.495  INFO [accommodation-ms,,] 23544 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=6a6e5748-6475-33cc-8abc-8d4e1d4a3f1a
+2023-06-19 02:16:15.165  INFO [accommodation-ms,,] 23544 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
+2023-06-19 02:16:15.173  INFO [accommodation-ms,,] 23544 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-06-19 02:16:15.174  INFO [accommodation-ms,,] 23544 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.60]
+2023-06-19 02:16:15.294  INFO [accommodation-ms,,] 23544 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-06-19 02:16:15.294  INFO [accommodation-ms,,] 23544 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1944 ms
+2023-06-19 02:16:15.808  WARN [accommodation-ms,,] 23544 --- [main] o.s.c.s.a.z.ZipkinAutoConfiguration      : Check result of the [RestTemplateSender{http://localhost:9411/api/v2/spans}] contains an error [CheckResult{ok=false, error=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:9411/api/v2/spans": Connection refused: no further information; nested exception is java.net.ConnectException: Connection refused: no further information}]
+2023-06-19 02:16:16.075  INFO [accommodation-ms,,] 23544 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-06-19 02:16:16.118  INFO [accommodation-ms,,] 23544 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.7.Final
+2023-06-19 02:16:16.230  INFO [accommodation-ms,,] 23544 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-06-19 02:16:16.315  INFO [accommodation-ms,,] 23544 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-06-19 02:16:16.543  INFO [accommodation-ms,,] 23544 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-06-19 02:16:16.552  INFO [accommodation-ms,,] 23544 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2023-06-19 02:16:17.422  INFO [accommodation-ms,,] 23544 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-06-19 02:16:17.428  INFO [accommodation-ms,,] 23544 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-06-19 02:16:19.173  INFO [accommodation-ms,,] 23544 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2023-06-19 02:16:19.242  INFO [accommodation-ms,,] 23544 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8083 (http) with context path ''
+2023-06-19 02:16:19.493  INFO [accommodation-ms,,] 23544 --- [main] n.d.b.g.s.s.AbstractGrpcServerFactory    : Registered gRPC service: com.vima.gateway.AccommodationService, bean: accommodationGrpcService, class: com.vima.accommodation.grpc_service.AccommodationGrpcService
+2023-06-19 02:16:19.496  INFO [accommodation-ms,,] 23544 --- [main] n.d.b.g.s.s.AbstractGrpcServerFactory    : Registered gRPC service: com.vima.gateway.RatingAccommodationService, bean: ratingAccommodationGrpcService, class: com.vima.accommodation.grpc_service.RatingAccommodationGrpcService
+2023-06-19 02:16:19.618  INFO [accommodation-ms,,] 23544 --- [main] n.d.b.g.s.s.GrpcServerLifecycle          : gRPC Server started, listening on address: *, port: 9093
+2023-06-19 02:16:19.636  INFO [accommodation-ms,,] 23544 --- [main] c.v.a.AccommodationApplication           : Started AccommodationApplication in 6.842 seconds (JVM running for 7.253)
+2023-06-19 02:16:22.331  INFO [accommodation-ms,,] 23544 --- [Thread-2] o.s.c.s.a.z.ZipkinAutoConfiguration      : Flushing remaining spans on shutdown
+2023-06-19 02:16:22.334  INFO [accommodation-ms,,] 23544 --- [SpringApplicationShutdownHook] n.d.b.g.s.s.GrpcServerLifecycle          : gRPC server shutdown.
+2023-06-19 02:16:22.356  INFO [accommodation-ms,,] 23544 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-06-19 02:16:22.358  INFO [accommodation-ms,,] 23544 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-06-19 02:16:22.370  INFO [accommodation-ms,,] 23544 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
