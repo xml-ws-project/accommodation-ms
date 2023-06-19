@@ -1,5 +1,6 @@
 package com.vima.accommodation.grpc_service;
 
+import com.vima.accommodation.dto.gRPCObjectRec;
 import com.vima.accommodation.mapper.AdditionalBenefitMapper;
 import com.vima.accommodation.service.AdditionalBenefitService;
 import com.vima.accommodation.service.SpecialInfoService;
@@ -8,8 +9,11 @@ import com.vima.accommodation.mapper.AccommodationMapper;
 import com.vima.accommodation.mapper.SpecialInfoMapper;
 import com.vima.accommodation.service.AccommodationService;
 
+import java.util.List;
 import java.util.UUID;
 
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 import io.grpc.stub.StreamObserver;
@@ -37,8 +41,14 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 	@Override
 	public void create(AccommodationRequest request, StreamObserver<AccommodationResponse> responseObserver) {
 		var accommodation = AccommodationMapper.convertEntityToDto(accommodationService.create(request));
+		createAccomNode(accommodation.getId());
 		responseObserver.onNext(accommodation);
 		responseObserver.onCompleted();
+	}
+
+	private void createAccomNode(String userId){
+		getBlockingStub().getStub().createAccomNode(Uuid.newBuilder().setValue(userId).build());
+		getBlockingStub().getChannel().shutdown();
 	}
 
 	@Override
@@ -113,12 +123,34 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 	}
 
 	@Override
+	public void findRecommended(Uuid request, StreamObserver<AccommodationList> responseObserver){
+		var recommendedIds = getIds(request);
+		var recommended = accommodationService.findRecommended(recommendedIds);
+		responseObserver.onNext(AccommodationList.newBuilder().addAllResponse(AccommodationMapper.convertEntityToDtoList(recommended)).build());
+		responseObserver.onCompleted();
+	}
+
+	private List<String> getIds(Uuid userId){
+		var ids = getBlockingStub().getStub().recommend(userId);
+		getBlockingStub().getChannel().shutdown();
+		return ids.getIdsList();
+	}
+
+	private gRPCObjectRec getBlockingStub() {
+		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9095)
+				.usePlaintext()
+				.build();
+		return gRPCObjectRec.builder()
+				.channel(channel)
+				.stub(RecommendationServiceGrpc.newBlockingStub(channel))
+				.build();
+	}
+
 	public void filterAccommodations(AccommodationFilterRequest request, StreamObserver<SearchList> responseObserver){
 
 		var searchResponse = accommodationService.filterAccommodation(request);
 		responseObserver.onNext(searchResponse);
 		responseObserver.onCompleted();
 	}
-
 
 }

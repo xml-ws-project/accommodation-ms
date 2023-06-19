@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -206,6 +207,14 @@ public class AccommodationServiceImpl implements AccommodationService {
 		return searchPriceList;
 	}
 
+	@Override
+	public List<Accommodation> findRecommended(List<String> ids) {
+		var accommodations = accommodationRepository.findAll();
+		return accommodations.stream()
+				.filter(accommodation -> ids.contains(accommodation.getId().toString()))
+				.collect(Collectors.toList());
+	}
+
 	public SearchList filterAccommodation(AccommodationFilterRequest request){
 
 		List<Accommodation> viableAccommodations = getViableAccommodations(request);
@@ -282,6 +291,4 @@ public class AccommodationServiceImpl implements AccommodationService {
 		}
 		return true;
 	}
-
-
 }
