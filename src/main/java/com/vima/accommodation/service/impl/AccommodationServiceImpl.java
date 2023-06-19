@@ -249,18 +249,18 @@ public class AccommodationServiceImpl implements AccommodationService {
 
 	private List<Accommodation> getViableAccommodations(AccommodationFilterRequest request){
 		if(request.getHostId().equals("") && !request.getBenefitsList().isEmpty()){
-			return accommodationRepository.findByRegularPriceGreaterThanAndRegularPriceLessThanAndBenefitsNameIn(
+			return accommodationRepository.findAllByRegularPriceGreaterThanAndRegularPriceLessThanAndBenefitsNameIn(
 					request.getMinPrice(), request.getMaxPrice() ,request.getBenefitsList());
 
 		}
 		if(!request.getHostId().equals("") && !request.getBenefitsList().isEmpty()) {
-			return accommodationRepository.findByRegularPriceGreaterThanAndRegularPriceLessThanAndBenefitsNameInAndHostId(
+			return accommodationRepository.findAllByRegularPriceGreaterThanAndRegularPriceLessThanAndBenefitsNameInAndHostId(
 					request.getMinPrice(), request.getMaxPrice(), request.getBenefitsList(), request.getHostId());
 		}
 		if(request.getHostId().equals("") && request.getBenefitsList().isEmpty()){
-			return accommodationRepository.findByRegularPriceGreaterThanAndRegularPriceLessThan(request.getMinPrice(), request.getMaxPrice());
+			return accommodationRepository.findAllByRegularPriceGreaterThanAndRegularPriceLessThan(request.getMinPrice(), request.getMaxPrice());
 		}
-		else return accommodationRepository.findByRegularPriceGreaterThanAndRegularPriceLessThanAndHostId(
+		else return accommodationRepository.findAllByRegularPriceGreaterThanAndRegularPriceLessThanAndHostId(
 				request.getMinPrice(), request.getMaxPrice(), request.getHostId());
 	}
 

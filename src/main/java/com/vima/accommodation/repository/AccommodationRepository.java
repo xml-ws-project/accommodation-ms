@@ -14,19 +14,19 @@ import org.springframework.stereotype.Repository;
 public interface AccommodationRepository extends JpaRepository<Accommodation, UUID> {
 	List<Accommodation> findAllByHostId(UUID hostId);
 	void deleteAllByHostId(String hostId);
-	List<Accommodation> findByRegularPriceGreaterThanAndRegularPriceLessThanAndBenefitsNameInAndHostId(
+	List<Accommodation> findAllByRegularPriceGreaterThanAndRegularPriceLessThanAndBenefitsNameInAndHostId(
 			double minPrice, double maxPrice, List<String> benefits, String hostId
 	);
 
-	List<Accommodation> findByRegularPriceGreaterThanAndRegularPriceLessThanAndBenefitsNameIn(
+	List<Accommodation> findAllByRegularPriceGreaterThanAndRegularPriceLessThanAndBenefitsNameIn(
 			double minPrice, double maxPrice, List<String> benefits
 	);
 
-	List<Accommodation> findByRegularPriceGreaterThanAndRegularPriceLessThanAndHostId(
+	List<Accommodation> findAllByRegularPriceGreaterThanAndRegularPriceLessThanAndHostId(
 			double minPrice, double maxPrice,  String hostId
 	);
 
-	List<Accommodation> findByRegularPriceGreaterThanAndRegularPriceLessThan(
+	List<Accommodation> findAllByRegularPriceGreaterThanAndRegularPriceLessThan(
 			double minPrice, double maxPrice
 	);
 
