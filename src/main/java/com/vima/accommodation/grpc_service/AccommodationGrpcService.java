@@ -16,6 +16,8 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import net.devh.boot.grpc.server.service.GrpcService;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +29,8 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 	private final SpecialInfoService specialInfoService;
 	private final AdditionalBenefitService additionalBenefitService;
 	private static final String DELETE_MESSAGE = "Accommodations are successfully deleted.";
+	@Value("${channel.address.recommendation-ms}")
+	private String channelRecommendationAddress;
 
 	@Override
 	public void findAll(Empty request, StreamObserver<AccommodationList> responseObserver) {
@@ -137,7 +141,7 @@ public class AccommodationGrpcService extends AccommodationServiceGrpc.Accommoda
 	}
 
 	private gRPCObjectRec getBlockingStub() {
-		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9095)
+		ManagedChannel channel = ManagedChannelBuilder.forAddress(channelRecommendationAddress, 9095)
 				.usePlaintext()
 				.build();
 		return gRPCObjectRec.builder()
